@@ -14,7 +14,6 @@ import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, Di
 import { useState } from 'react'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
 import { useAppSelector } from '@/store/hooks'
 
 export const Route = createFileRoute('/admin/faculty/')({
@@ -170,7 +169,9 @@ function RouteComponent() {
             header: 'Actions',
             enableHiding: false,
             cell: ({ row }) => {
-                const role = row.original
+                const faculty = row.original;
+                console.log(faculty)
+
 
                 return (
                     <div className='flex gap-4'>

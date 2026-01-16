@@ -13,10 +13,9 @@ import {
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Textarea } from '@/components/ui/textarea'
-import { addBlocks, createBlock, editBlock, getBlocks, getComponent } from '@/service'
-import { useQueries, useQuery } from '@tanstack/react-query'
+import { addBlocks, createBlock, getBlocks, getComponent } from '@/service'
+import { useQueries } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
 import { Pencil, Plus, Save, GripVertical, X, MoreHorizontal, Trash2 } from 'lucide-react'
 import { useForm } from 'react-hook-form'
@@ -37,7 +36,6 @@ import {
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { useEffect, useState } from 'react'
-import { useAppSelector } from '@/store/hooks'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 
 export const Route = createFileRoute('/admin/templates/$id')({
@@ -194,10 +192,11 @@ function RouteComponent() {
     }
 
     const handleEditBlock = async (values: any) => {
-        const payload = {
-            ...values,
-            createdById: Number(id),
-        }
+        console.log(values);
+        // const payload = {
+        //     ...values,
+        //     createdById: Number(id),
+        // }
 
         // const res = await editBlock( payload)
 
@@ -342,7 +341,7 @@ function RouteComponent() {
                                         </DropdownMenu>
 
                                         {/* EDIT DIALOG */}
-                                        <DialogContent className="sm:max-w-[520px]">
+                                        <DialogContent className="min-w-xl">
                                             <DialogHeader>
                                                 <DialogTitle>Edit Block</DialogTitle>
                                                 <DialogDescription>
@@ -415,7 +414,7 @@ function RouteComponent() {
                                 </Button>
                             </DialogTrigger>
 
-                            <DialogContent className="sm:max-w-[520px]">
+                            <DialogContent className="min-w-xl">
                                 <DialogHeader>
                                     <DialogTitle>Create Block</DialogTitle>
                                     <DialogDescription> Add a new block. </DialogDescription>
@@ -498,7 +497,7 @@ function RouteComponent() {
                             items={canvasBlocks.map((b) => b.id)}
                             strategy={verticalListSortingStrategy}
                         >
-                            <div className="space-y-3 min-h-[200px] border rounded-lg p-4 bg-gray-50">
+                            <div className="space-y-3 min-h-50 border rounded-lg p-4 bg-gray-50">
                                 {canvasBlocks.length === 0 && (
                                     <p className="text-sm text-gray-400 text-center">
                                         Drag blocks here to start building

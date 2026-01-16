@@ -145,7 +145,8 @@ function RouteComponent() {
       header: 'Actions',
       enableHiding: false,
       cell: ({ row }) => {
-        const role = row.original
+        const department = row.original
+        console.log(department)
 
         return (
           <div className='flex gap-4'>

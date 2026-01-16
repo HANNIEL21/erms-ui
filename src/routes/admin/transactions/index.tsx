@@ -3,18 +3,16 @@ import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { createFileRoute } from '@tanstack/react-router'
 import type { ColumnDef } from '@tanstack/react-table'
-import { ArrowUpDown, MoreHorizontal, CreditCard, Calendar, DollarSign, CheckCircle, XCircle, TrendingUp, Filter, Download, Eye, Receipt, AlertCircle, User } from 'lucide-react'
+import { ArrowUpDown, MoreHorizontal, CreditCard, Calendar, DollarSign, CheckCircle, Filter, Download, Eye, Receipt, AlertCircle, User } from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
 import { toast } from 'sonner'
 
 import { getPayments, type Payment } from '@/service'
-import { useAppSelector } from '@/store/hooks'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { Skeleton } from '@/components/ui/skeleton'
 import { SiteHeader } from '@/components/site-header'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Badge } from '@/components/ui/badge'
 
 export const Route = createFileRoute('/admin/transactions/')({
   component: RouteComponent,
@@ -22,7 +20,6 @@ export const Route = createFileRoute('/admin/transactions/')({
 
 
 function RouteComponent() {
-  const { user } = useAppSelector((state) => state.auth)
   const searchParams = new URLSearchParams({
     page: '1',
     limit: '10',

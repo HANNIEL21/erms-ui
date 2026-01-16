@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { createFileRoute } from '@tanstack/react-router'
 import type { ColumnDef } from '@tanstack/react-table'
-import { ArrowUpDown, MoreHorizontal, CreditCard, Calendar, DollarSign, CheckCircle, XCircle, TrendingUp, Filter, Download, Eye, Receipt, AlertCircle, Clock, BarChart, Wallet, ExternalLink } from 'lucide-react'
+import { ArrowUpDown, CreditCard, Calendar, DollarSign, CheckCircle, XCircle, TrendingUp, Filter, Download, Eye, Receipt, AlertCircle, Clock, ExternalLink } from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
 import { toast } from 'sonner'
 
@@ -40,7 +40,7 @@ function RouteComponent() {
 
   if (isPending) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white p-4 lg:p-6">
+      <div className="min-h-screen bg-linear-to-b from-gray-50 to-white p-4 lg:p-6">
         <div className="mx-auto max-w-7xl space-y-6">
           {/* Header */}
           <div className="space-y-2">

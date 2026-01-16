@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import type { ColumnDef } from '@tanstack/react-table'
-import { MoreHorizontal, Calendar, CheckCircle, FileText, User, Download, Eye, AlertCircle, ScrollText, LayersPlus, Layers, ToyBrick } from 'lucide-react'
+import { MoreHorizontal, Calendar, CheckCircle, FileText, User, Download, Eye, AlertCircle, LayersPlus, Layers, ToyBrick } from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
 import { toast } from 'sonner'
 
