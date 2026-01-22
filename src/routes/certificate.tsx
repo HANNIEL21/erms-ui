@@ -1,10 +1,16 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { checkPrintStatus } from '@/service'
-import { createFileRoute } from '@tanstack/react-router'
-import { ArrowRightIcon, CircleCheck, Clipboard, OctagonX, TriangleAlert } from 'lucide-react'
+import { checkPrintStatus, initPayment, logout, updatePayment } from '@/service'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { ArrowRightIcon, ChevronDown, CircleCheck, Clipboard, Home, LogOut, OctagonX, TriangleAlert } from 'lucide-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import PaystackPop from "@paystack/inline-js"
+import { useAppDispatch, useAppSelector } from '@/store/hooks'
+import { logout as logoutAction } from '@/store/slices/auth.slice';
+import { toast } from 'sonner'
+import { Separator } from '@/components/ui/separator'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 
 type CheckStatusForm = {
     matric: string
@@ -22,8 +28,26 @@ export const Route = createFileRoute('/certificate')({
 
 
 function RouteComponent() {
+    const { user, accessToken } = useAppSelector((state) => state.auth)
+    const navigate = useNavigate();
+    const dispatch = useAppDispatch();
     const [result, setResult] = useState<PrintStatus | null>(null);
+    const [paymentData, setPaymentData] = useState<any | null>(null)
+    const [loading, setLoading] = useState(false)
     const [showPopup, setShowPopup] = useState(false);
+
+    const handleLogout = async () => {
+        try {
+            const res = await logout(accessToken!, user);
+            console.log(res);
+            dispatch(logoutAction())
+            navigate({ to: "/" });
+        } catch (error) {
+            console.error("Logout failed:", error);
+            dispatch(logoutAction());
+            navigate({ to: "/" });
+        }
+    }
 
     const createForm = useForm<CheckStatusForm>({
         defaultValues: {
@@ -32,45 +56,170 @@ function RouteComponent() {
     })
 
     const onCreate = async (values: CheckStatusForm) => {
-        const res = await checkPrintStatus(values.matric);
-
-
-
-        // Normalize backend response
-        if (res.status === 200) {
-            setResult({
-                status: 200,
-                isPrinted: res.data.isPrinted,
-            });
-        } else {
-            setResult({ status: res.status });
+        if (paymentData) {
+            handlePayment(values.matric)
+            return
         }
 
-        setShowPopup(true);
-    };
+        if (!user) {
+            toast.error('Please login to proceed');
+        }
+
+        try {
+            setLoading(true)
+
+            const payload = {
+                user,
+                type: 'CERTIFICATE STATUS CHECK',
+                request: 'CERTIFICATE_PRINT_STATUS',
+                price: 2000,
+                processing_fee: 500,
+            }
+
+            const response = await initPayment(payload)
+            setPaymentData(response)
+
+        } catch (err) {
+            console.error(err)
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    const handlePayment = async (matric: string) => {
+        if (!paymentData?.access_code || !paymentData.payment_id) return
+
+        const paystack = new PaystackPop()
+
+        paystack.resumeTransaction(paymentData.access_code, {
+            onSuccess: async () => {
+                try {
+                    await updatePayment(paymentData.payment_id, {
+                        status: "SUCCESSFUL",
+                        transaction_id: paymentData.reference,
+                        reference: paymentData.reference,
+                        access_code: paymentData.access_code,
+                    })
+
+                    const res = await checkPrintStatus(matric)
+
+                    if (res.status === 200) {
+                        setResult({
+                            status: 200,
+                            isPrinted: res.data.isPrinted,
+                        })
+                    } else {
+                        setResult({ status: res.status })
+                    }
+
+                    setShowPopup(true)
+                    setPaymentData(null)
+                } catch (err) {
+                    console.error(err)
+                }
+            },
+        })
+    }
+
+
+
+
 
     return (
-        <div className='grid grid-cols-2 place-content-center p-8 h-screen'>
-            <div className='grid place-content-center gap-6'>
+        <div className="relative grid lg:grid-cols-2 min-h-screen px-4 sm:px-8 py-6 lg:py-12 overflow-x-hidden">
+            <div className="absolute top-4 right-4 sm:top-6 sm:right-6 flex flex-wrap gap-2 justify-end z-10">
+                {user && user?.role ? (
+                    <div className='flex items-center gap-4'>
+                        <Button
+                            className='bg-blue-900 hover:bg-blue-800'
+                            size='icon'
+                            onClick={() => navigate({ to: '/' })}
+                        >
+                            <Home />
+                        </Button>
+                        <Button
+                            className="bg-green-800"
+                            onClick={() => {
+                                user.role.name === "ALUMNI" ? navigate({ to: "/user" }) : navigate({ to: "/admin" })
+                            }}
+                        >
+                            Dashboard
+                        </Button>
+
+                        <Button
+                            variant='destructive'
+                            size='icon'
+                            onClick={handleLogout}
+                        >
+                            <LogOut />
+                        </Button>
+                    </div>
+                ) : (
+                    <div className="flex items-center">
+                        <Button
+                            className="rounded-r-none bg-green-800"
+                        >
+                            Login
+                        </Button>
+                        <Separator orientation="vertical" />
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button className="rounded-l-none border-l-0 px-2 bg-green-800">
+                                    <ChevronDown />
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent>
+                                <DropdownMenuItem onSelect={() => navigate({
+                                    to: "/auth/login",
+                                    search: { role: "admin" }
+                                })}>
+                                    Admin
+                                </DropdownMenuItem>
+                                <DropdownMenuItem onSelect={() => navigate({
+                                    to: "/auth/login",
+                                    search: { role: "alumni" }
+                                })}>
+                                    Alumni
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </div>
+                )}
+            </div>
+
+            <div className="flex flex-col justify-center gap-8 max-w-xl mx-auto text-center lg:text-left">
+
                 <div className='grid gap-3'>
-                    <h1 className='w-20 text-blue-900 font-extrabold text-7xl'>Certificate Print Status</h1>
+                    <h1 className="text-blue-900 font-extrabold text-4xl sm:text-5xl lg:text-6xl leading-tight">
+                        Certificate Print Status</h1>
                     <p>Want to know if your certificate has been printed?</p>
                 </div>
 
-                <form className='flex' onSubmit={createForm.handleSubmit(onCreate)}>
+                <form
+                    className="flex w-full max-w-md mx-auto lg:mx-0 gap-0"
+                    onSubmit={createForm.handleSubmit(onCreate)}
+                >
                     <Input
                         placeholder='Enter Matric Number'
                         id='matric'
-                        className='rounded-r-none'
+                        className="rounded-r-none h-12 text-base"
                         {...createForm.register('matric', {
                             required: 'Matric Number is required',
                         })}
                     />
-                    <Button className='rounded-l-none bg-blue-900 font-bold uppercase'>Check</Button>
+                    { }
+                    <Button
+                        type="submit"
+                        className="rounded-l-none bg-blue-900 font-bold uppercase h-12 px-6 transition-colors disabled:opacity-60"
+                        disabled={loading}
+                    >
+                        {paymentData ? 'Complete Payment' : 'Check'}
+                    </Button>
+
                 </form>
 
                 <button
-                    className="flex items-center gap-3 group hover:bg-accent transition-colors p-3 rounded-lg"
+                    className="flex items-center justify-between gap-3 p-4 rounded-lg border border-transparent hover:border-accent hover:bg-accent/40 transition-all cursor-pointer max-w-md mx-auto lg:mx-0"
                 >
                     <span className="group-hover:underline">
                         Apply for Reprint of Certificate
@@ -80,11 +229,11 @@ function RouteComponent() {
                     </span>
                 </button>
             </div>
-            <div className='grid place-content-center'>
+            <div className="hidden lg:flex items-center justify-center">
                 <img
                     src="/certificate.png"
                     alt="Description"
-                    className="mx-auto size-50 md:size-80"
+                    className="max-w-sm xl:max-w-md w-full h-auto"
                 />
             </div>
 

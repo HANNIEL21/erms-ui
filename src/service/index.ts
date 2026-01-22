@@ -370,11 +370,11 @@ export const getPaymentsByUser = async (userId: number): Promise<PaginatedRespon
 
 export const initPayment = async (payload: {
     request: string;
-    type: string;
-    destination: string;
+    type?: string;
+    destination?: string;
     price: number;
     processing_fee: number;
-    document: any;
+    document?: any;
     user: any;
 }) => {
     const { data } = await http.post("/payment/init", payload);
