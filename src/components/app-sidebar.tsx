@@ -4,11 +4,9 @@ import * as React from "react"
 import {
   Blocks,
   ClipboardList,
-  Command,
   Frame,
   Layers,
   LayoutGrid,
-  Map,
   MonitorCog,
   PieChart,
   UserCog,
@@ -17,19 +15,16 @@ import {
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
-import { NavSecondary } from "@/components/nav-secondary"
 import { NavUser } from "@/components/nav-user"
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
+  SidebarRail,
 } from "@/components/ui/sidebar"
 import type { AuthUser } from "@/store/slices/auth.slice"
 
+// This is sample data.
 const alumni = {
   user: {
     firstname: "shadcn",
@@ -137,23 +132,8 @@ const admin = {
   navMain: [
     {
       title: "Dashboard",
-      url: "/user/",
+      url: "/admin/",
       icon: LayoutGrid,
-      isActive: true,
-      // items: [
-      //   {
-      //     title: "History",
-      //     url: "#",
-      //   },
-      //   {
-      //     title: "Starred",
-      //     url: "#",
-      //   },
-      //   {
-      //     title: "Settings",
-      //     url: "#",
-      //   },
-      // ],
     },
     {
       title: "User Management",
@@ -296,6 +276,11 @@ interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
 export function AppSidebar({ user, ...props }: AppSidebarProps) {
   const base = user?.role?.name === "ALUMNI" ? alumni : admin
 
+  const isActivePath = (url: string) => {
+    if (url === "/") return window.location.pathname === "/"
+    return window.location.pathname.startsWith(url)
+  }
+  
 
   const data = {
     ...base,
@@ -307,34 +292,15 @@ export function AppSidebar({ user, ...props }: AppSidebarProps) {
     },
   }
 
-
   return (
-    <Sidebar variant="inset" {...props}>
+    <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton size="lg" asChild>
-              <a href="#">
-                <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
-                  <Command className="size-4" />
-                </div>
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">Acme Inc</span>
-                  <span className="truncate text-xs">Enterprise</span>
-                </div>
-              </a>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
+        <NavUser user={data.user} />
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data?.navMain} />
-        {/* <NavProjects projects={data.projects} /> */}
-        <NavSecondary items={data?.navSecondary} className="mt-auto" />
+        <NavMain items={data.navMain} />
       </SidebarContent>
-      <SidebarFooter>
-        <NavUser user={data?.user} />
-      </SidebarFooter>
+      <SidebarRail />
     </Sidebar>
   )
 }

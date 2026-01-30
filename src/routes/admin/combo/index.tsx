@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { createFileRoute } from '@tanstack/react-router'
 import type { ColumnDef } from '@tanstack/react-table'
-import { MoreHorizontal, Mail, Calendar, CheckCircle, FileText, Download, Filter, Clock, AlertCircle } from 'lucide-react'
+import { MoreHorizontal, Mail, Calendar, CheckCircle, FileText, Download, Filter, Clock, AlertCircle, Upload, Info, X } from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
 import { toast } from 'sonner'
 
@@ -21,6 +21,10 @@ import { Separator } from '@/components/ui/separator'
 import { SiteHeader } from '@/components/site-header'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
+import { Label } from '@/components/ui/label'
+import { Input } from '@/components/ui/input'
+import DropBox from '@/components/dropbox'
 
 export const Route = createFileRoute('/admin/combo/')({
   component: RouteComponent,
@@ -373,10 +377,7 @@ function RouteComponent() {
                 </p>
               </div>
               <div className="flex gap-2">
-                <Button variant="outline" size="sm" className="gap-2">
-                  <Download className="h-4 w-4" />
-                  Export
-                </Button>
+                <DropBox />
                 <Button variant="outline" size="sm" className="gap-2">
                   <Filter className="h-4 w-4" />
                   Filter

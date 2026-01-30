@@ -10,6 +10,7 @@ import { Spinner } from "@/components/ui/spinner"
 import { toast } from "sonner"
 import { useAppDispatch } from '@/store/hooks';
 import { setAuth } from '@/store/slices/auth.slice';
+import { Button } from '@/components/ui/button';
 
 const loginSchema = z
   .object({
@@ -109,13 +110,23 @@ function RouteComponent() {
       return LoginAlumni({ matric_number: data.email });
     },
     onSuccess(data) {
-      console.log(data)
+      console.log(data);
       if (data.status === 200) {
         toast.success(`Logged in as ${data.user.email}`)
+
+        navigate({
+          to: data.user?.role?.name === "ALUMNI" ? "/user" : "/admin",
+        });
       }
 
       if (data.status === 203) {
         toast.warning(data.message);
+        return
+      }
+
+      if (data.status === 404) {
+        toast.error(data.message);
+        return
       }
 
       dispatch(
@@ -126,9 +137,7 @@ function RouteComponent() {
         })
       );
 
-      navigate({
-        to: data.user?.role?.name === "ALUMNI" ? "/user" : "/admin",
-      });
+
     },
     onError(error) {
       console.log(error)
@@ -137,71 +146,98 @@ function RouteComponent() {
   })
 
   return (
-    <div className='h-screen flex flex-col relative p-6 md:p-0'>
-
-      <div className="max-w-xl absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full px-6">
-        <div>
-          <h1 className="text-blue-800 text-4xl text-center font-bold mb-8">
-            Login
-          </h1>
-        </div>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          {/* Email */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              {isAdmin ? "Email" : "Matric Number"}
-            </label>
-            {isAdmin ? (
-              <input
-                {...register('email')}
-                type="email"
-                className="mt-1 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            ) : (
-              <input
-                {...register('email')}
-                type="text"
-                className="mt-1 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            )}
-            {errors.email && (
-              <p className="mt-1 text-sm text-red-600">
-                {errors.email.message}
-              </p>
-            )}
+    <div className="min-h-screen grid grid-cols-1 lg:grid-cols-2">
+      {/* Left */}
+      <div className="flex items-center justify-center px-6 py-12">
+        <div className="w-full max-w-md space-y-8">
+          {/* Header */}
+          <div className="space-y-2">
+            <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-gray-900">
+              Holla,
+              <br />
+              Welcome Back
+            </h1>
+            <p className="text-sm text-gray-500">
+              Sign in to continue managing your records
+            </p>
           </div>
 
-          {/* Password (Admin Only) */}
-          {isAdmin && (
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Password
-              </label>
-              <input
-                {...register('password')}
-                type="password"
-                className="mt-1 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-              {errors.password && (
-                <p className="mt-1 text-sm text-red-600">
-                  {errors.password.message}
-                </p>
+          {/* Form*/}
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+            <div className='grid space-y-1'>
+              {/* Email / Matric */}
+              <div className="space-y-1">
+                <label className="text-sm font-medium text-gray-700">
+                  {isAdmin ? "Email" : "Matric Number"}
+                </label>
+
+                <input
+                  {...register('email')}
+                  type={isAdmin ? 'email' : 'text'}
+                  className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm
+                         focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20
+                         transition"
+                />
+
+                {errors.email && (
+                  <p className="text-xs text-red-600">
+                    {errors.email.message}
+                  </p>
+                )}
+              </div>
+
+              {/* Password */}
+              {isAdmin && (
+                <div className="space-y-1">
+                  <label className="text-sm font-medium text-gray-700">
+                    Password
+                  </label>
+
+                  <input
+                    {...register('password')}
+                    type="password"
+                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm
+                           focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20
+                           transition"
+                  />
+
+                  {errors.password && (
+                    <p className="text-xs text-red-600">
+                      {errors.password.message}
+                    </p>
+                  )}
+                </div>
               )}
             </div>
-          )}
 
-          <button
-            type="submit"
-            disabled={mutation.isPending}
-            className="w-full rounded-lg bg-blue-700 py-2 text-white font-semibold hover:bg-blue-800 disabled:opacity-50"
-          >
-            {mutation.isPending ? (<Spinner />) : 'Login'}
-          </button>
-        </form>
-      </div >
+            {/* Button */}
+            <Button
+              type="submit"
 
-      <Triangle className="hidden md:block absolute left-0 h-screen fill-green-800" />
-      <Triangle className="hidden md:block absolute h-screen fill-blue-800 scale-y-[-1]" />
-    </div >
+              disabled={mutation.isPending}
+              className="rounded-lg bg-blue-700 py-2.5 text-sm font-semibold text-white
+                       hover:bg-blue-800 active:scale-[0.99]
+                       disabled:opacity-50 disabled:cursor-not-allowed
+                       transition"
+            >
+              {mutation.isPending ? <span className='flex gap-2 items-center justify-center'> <Spinner /> Loading...</span> : 'Login'}
+            </Button>
+          </form>
+
+
+        </div>
+      </div>
+
+      {/* Right (Visual Panel) */}
+      <div className="hidden lg:flex items-center justify-center relative bg-gradient-to-br from-blue-700 to-blue-900">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.15),transparent_60%)]" />
+        <div className="relative text-center text-white px-12">
+          <h2 className="text-3xl font-semibold">Electronic Records</h2>
+          <p className="mt-2 text-sm text-blue-100">
+            Secure alumni access and document verification
+          </p>
+        </div>
+      </div>
+    </div>
   )
 }
