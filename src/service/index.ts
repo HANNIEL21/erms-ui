@@ -182,7 +182,7 @@ export const createDocument = async (payload: {
     return data;
 }
 
-export const getDocuments = async (params: string): Promise<PaginatedResponse<Document>> => {
+export const getDocuments = async (params?: string): Promise<PaginatedResponse<Document>> => {
     const { data } = await http.get(`/document?${params}`);
     return data;
 }
@@ -403,13 +403,15 @@ Templates
 */
 
 export interface Template {
-    id: string
+    id: number
     name: string
+    description: string
     version: string
     isActive: boolean
     document: { id: number, title: string }
     createdBy: { id: number, email: string }
     createdAt: string
+    updatedAt: string
 }
 
 export const createTemplate = async (payload: {

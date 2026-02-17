@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { Bell, LogOut} from "lucide-react"
+import LogoutButton from "./logout-button"
 
 interface SiteHeaderProps {
   title?: string
@@ -30,9 +31,7 @@ export function SiteHeader({
           <Button>
             <Bell />
           </Button>
-          <Button className="bg-red-600">
-            <LogOut />
-          </Button>
+          <LogoutButton />
         </div>
       </div>
     </header>

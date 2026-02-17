@@ -12,9 +12,11 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as VerifyRouteImport } from './routes/verify'
 import { Route as CertificateRouteImport } from './routes/certificate'
 import { Route as UserRouteRouteImport } from './routes/user/route'
+import { Route as FacultyRouteRouteImport } from './routes/faculty/route'
 import { Route as AdminRouteRouteImport } from './routes/admin/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as UserIndexRouteImport } from './routes/user/index'
+import { Route as FacultyIndexRouteImport } from './routes/faculty/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
 import { Route as UserTransactionsIndexRouteImport } from './routes/user/transactions/index'
@@ -51,6 +53,11 @@ const UserRouteRoute = UserRouteRouteImport.update({
   path: '/user',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FacultyRouteRoute = FacultyRouteRouteImport.update({
+  id: '/faculty',
+  path: '/faculty',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminRouteRoute = AdminRouteRouteImport.update({
   id: '/admin',
   path: '/admin',
@@ -65,6 +72,11 @@ const UserIndexRoute = UserIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => UserRouteRoute,
+} as any)
+const FacultyIndexRoute = FacultyIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => FacultyRouteRoute,
 } as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
@@ -172,11 +184,13 @@ const AdminTemplatesComponentsIdRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteRouteWithChildren
+  '/faculty': typeof FacultyRouteRouteWithChildren
   '/user': typeof UserRouteRouteWithChildren
   '/certificate': typeof CertificateRoute
   '/verify': typeof VerifyRoute
   '/auth/login': typeof AuthLoginRoute
   '/admin/': typeof AdminIndexRoute
+  '/faculty/': typeof FacultyIndexRoute
   '/user/': typeof UserIndexRoute
   '/admin/templates/$id': typeof AdminTemplatesIdRoute
   '/user/requests/id': typeof UserRequestsIdRoute
@@ -203,6 +217,7 @@ export interface FileRoutesByTo {
   '/verify': typeof VerifyRoute
   '/auth/login': typeof AuthLoginRoute
   '/admin': typeof AdminIndexRoute
+  '/faculty': typeof FacultyIndexRoute
   '/user': typeof UserIndexRoute
   '/admin/templates/$id': typeof AdminTemplatesIdRoute
   '/user/requests/id': typeof UserRequestsIdRoute
@@ -227,11 +242,13 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteRouteWithChildren
+  '/faculty': typeof FacultyRouteRouteWithChildren
   '/user': typeof UserRouteRouteWithChildren
   '/certificate': typeof CertificateRoute
   '/verify': typeof VerifyRoute
   '/auth/login': typeof AuthLoginRoute
   '/admin/': typeof AdminIndexRoute
+  '/faculty/': typeof FacultyIndexRoute
   '/user/': typeof UserIndexRoute
   '/admin/templates/$id': typeof AdminTemplatesIdRoute
   '/user/requests/id': typeof UserRequestsIdRoute
@@ -257,11 +274,13 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/admin'
+    | '/faculty'
     | '/user'
     | '/certificate'
     | '/verify'
     | '/auth/login'
     | '/admin/'
+    | '/faculty/'
     | '/user/'
     | '/admin/templates/$id'
     | '/user/requests/id'
@@ -288,6 +307,7 @@ export interface FileRouteTypes {
     | '/verify'
     | '/auth/login'
     | '/admin'
+    | '/faculty'
     | '/user'
     | '/admin/templates/$id'
     | '/user/requests/id'
@@ -311,11 +331,13 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/admin'
+    | '/faculty'
     | '/user'
     | '/certificate'
     | '/verify'
     | '/auth/login'
     | '/admin/'
+    | '/faculty/'
     | '/user/'
     | '/admin/templates/$id'
     | '/user/requests/id'
@@ -340,6 +362,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRouteRoute: typeof AdminRouteRouteWithChildren
+  FacultyRouteRoute: typeof FacultyRouteRouteWithChildren
   UserRouteRoute: typeof UserRouteRouteWithChildren
   CertificateRoute: typeof CertificateRoute
   VerifyRoute: typeof VerifyRoute
@@ -369,6 +392,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UserRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/faculty': {
+      id: '/faculty'
+      path: '/faculty'
+      fullPath: '/faculty'
+      preLoaderRoute: typeof FacultyRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin': {
       id: '/admin'
       path: '/admin'
@@ -389,6 +419,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/user/'
       preLoaderRoute: typeof UserIndexRouteImport
       parentRoute: typeof UserRouteRoute
+    }
+    '/faculty/': {
+      id: '/faculty/'
+      path: '/'
+      fullPath: '/faculty/'
+      preLoaderRoute: typeof FacultyIndexRouteImport
+      parentRoute: typeof FacultyRouteRoute
     }
     '/admin/': {
       id: '/admin/'
@@ -575,6 +612,18 @@ const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(
   AdminRouteRouteChildren,
 )
 
+interface FacultyRouteRouteChildren {
+  FacultyIndexRoute: typeof FacultyIndexRoute
+}
+
+const FacultyRouteRouteChildren: FacultyRouteRouteChildren = {
+  FacultyIndexRoute: FacultyIndexRoute,
+}
+
+const FacultyRouteRouteWithChildren = FacultyRouteRoute._addFileChildren(
+  FacultyRouteRouteChildren,
+)
+
 interface UserRouteRouteChildren {
   UserIndexRoute: typeof UserIndexRoute
   UserRequestsIdRoute: typeof UserRequestsIdRoute
@@ -596,6 +645,7 @@ const UserRouteRouteWithChildren = UserRouteRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRouteRoute: AdminRouteRouteWithChildren,
+  FacultyRouteRoute: FacultyRouteRouteWithChildren,
   UserRouteRoute: UserRouteRouteWithChildren,
   CertificateRoute: CertificateRoute,
   VerifyRoute: VerifyRoute,

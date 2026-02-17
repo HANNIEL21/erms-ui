@@ -1,4 +1,3 @@
-import { DataTable } from '@/components/table'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import {
@@ -9,9 +8,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
-import type { ColumnDef } from '@tanstack/react-table'
-import { MoreHorizontal, Calendar, CheckCircle, FileText, User, Download, Eye, AlertCircle, Grid2X2Plus, ScrollText } from 'lucide-react'
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
+import { FileText, Eye, Grid2X2Plus, Trash2 } from 'lucide-react'
 import { useQueries } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { Controller, useForm } from 'react-hook-form'
@@ -28,6 +26,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Switch } from '@/components/ui/switch'
 import { useAppSelector } from '@/store/hooks'
 import { useState } from 'react'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 
 export const Route = createFileRoute('/admin/templates/')({
   component: RouteComponent,
@@ -46,6 +45,7 @@ function RouteComponent() {
   const navigate = useNavigate();
   const { user } = useAppSelector((state) => state.auth);
   const [open, setOpen] = useState(false);
+  const [selectedTemplates, setSelectedTemplates] = useState<number[]>([]);
   const searchParams = new URLSearchParams({
     page: '1',
     limit: '10',
@@ -86,8 +86,6 @@ function RouteComponent() {
   const templates = templateQuery.data?.data ?? [];
   const documents = documentQuery.data?.data ?? [];
 
-  console.log(documentQuery)
-
   if (isPending) {
     return (
       <div className="space-y-6 p-6">
@@ -113,7 +111,7 @@ function RouteComponent() {
   if (isError) {
     toast.error(
       (error as any)?.response?.data?.message ??
-      'Failed to load admins'
+      'Failed to load templates'
     )
     return null
   }
@@ -135,248 +133,30 @@ function RouteComponent() {
 
     toast.success("Template created.")
     createTemplateForm.reset()
-
     setOpen(false);
-
   }
 
-  const columns: ColumnDef<Template>[] = [
-    {
-      id: 'select',
-      header: ({ table }) => (
-        <Checkbox
-          checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && 'indeterminate')
-          }
-          onCheckedChange={(value) =>
-            table.toggleAllPageRowsSelected(!!value)
-          }
-          aria-label="Select all"
-          className="border-gray-300"
-        />
-      ),
-      cell: ({ row }) => (
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-          className="border-gray-300"
-        />
-      ),
-      enableSorting: false,
-      enableHiding: false,
-    },
-    {
-      id: "name",
-      header: () => (
-        <Button
-          variant="ghost"
-          className="font-semibold hover:bg-gray-50"
-        >
-          <FileText className="mr-2 h-4 w-4" />
-          Name
-        </Button>
-      ),
-      accessorFn: (row) => row.name ?? "—",
-      cell: ({ getValue }) => (
-        <div className="font-medium">
-          {getValue<string>()}
-        </div>
-      ),
-    },
+  const toggleTemplateSelection = (templateId: number) => {
+    setSelectedTemplates(prev =>
+      prev.includes(templateId)
+        ? prev.filter(id => id !== templateId)
+        : [...prev, templateId]
+    );
+  };
 
-    {
-      id: "createdBy",
-      header: () => (
-        <Button
-          variant="ghost"
-          className="font-semibold hover:bg-gray-50"
-        >
-          <User className="mr-2 h-4 w-4" />
-          CreatedBy
-        </Button>
-      ),
-      accessorFn: (row) => row.createdBy?.email ?? "—",
-      cell: ({ getValue }) => (
-        <div className="font-medium">
-          {getValue<string>()}
-        </div>
-      ),
-    },
-    {
-      id: "version",
-      header: () => (
-        <Button
-          variant="ghost"
-          className="font-semibold hover:bg-gray-50"
-        >
-          Version
-        </Button>
-      ),
-      accessorFn: (row) => row.version ?? "—",
-      cell: ({ getValue }) => (
-        <div className="font-medium">
-          {getValue<string>()}
-        </div>
-      ),
-    },
-    {
-      id: "document",
-      header: () => (
-        <Button
-          variant="ghost"
-          className="font-semibold hover:bg-gray-50"
-        >
-          <ScrollText className="h-4 w-4" />
-          Document
-        </Button>
-      ),
-      accessorFn: (row) => row.document?.title ?? "—",
-      cell: ({ getValue }) => (
-        <div className="font-medium">
-          {getValue<string>()}
-        </div>
-      ),
-    },
-    {
-      accessorKey: "isActive",
-      header: ({ column }) => (
-        <div
-          className="flex items-center cursor-pointer select-none text-sm font-semibold text-gray-700 hover:text-gray-900"
-          onClick={() =>
-            column.toggleSorting(column.getIsSorted() === "asc")
-          }
-        >
-          Status
-        </div>
-      ),
-      cell: ({ getValue }) => {
-        const isActive = getValue<boolean>()
+  const selectAllTemplates = () => {
+    if (selectedTemplates.length === templates.length) {
+      setSelectedTemplates([]);
+    } else {
+      setSelectedTemplates(templates?.map(t => t.id));
+    }
+  };
 
-        // Determine status text and styles based on boolean value
-        const statusText = isActive ? "ACTIVE" : "INACTIVE"
-
-        const styles: Record<string, { text: string; bg: string; border: string }> = {
-          ACTIVE: {
-            text: "text-emerald-700",
-            bg: "bg-emerald-50",
-            border: "border border-emerald-200"
-          },
-          INACTIVE: {
-            text: "text-amber-700",
-            bg: "bg-amber-50",
-            border: "border border-amber-200"
-          }
-        }
-
-        const style = styles[statusText] || {
-          text: "text-gray-700",
-          bg: "bg-gray-50",
-          border: "border border-gray-200"
-        }
-
-        return (
-          <span
-            className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold tracking-wide ${style.bg} ${style.text} ${style.border}`}
-          >
-            {statusText}
-          </span>
-        )
-      },
-    },
-    {
-      accessorKey: 'createdAt',
-      header: () => (
-        <Button
-          variant="ghost"
-          className="font-semibold hover:bg-gray-50"
-        >
-          <Calendar className="mr-2 h-4 w-4" />
-          Created
-        </Button>
-      ),
-      cell: ({ row }) => {
-        const dateString = row.getValue('createdAt') as string;
-        const date = new Date(dateString);
-
-        return (
-          <div className="space-y-0.5">
-            <div className="text-sm font-medium">
-              {new Intl.DateTimeFormat('en-US', {
-                month: 'short',
-                day: 'numeric',
-                year: 'numeric',
-              }).format(date)}
-            </div>
-            <div className="text-xs text-gray-500">
-              {new Intl.DateTimeFormat('en-US', {
-                hour: '2-digit',
-                minute: '2-digit',
-                hour12: true,
-              }).format(date)}
-            </div>
-          </div>
-        );
-      },
-    },
-    {
-      id: 'actions',
-      enableHiding: false,
-      cell: ({ row }) => {
-        const request = row.original
-
-        return (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                className="h-8 w-8 p-0 hover:bg-gray-100 transition-colors"
-                size="icon"
-              >
-                <span className="sr-only">Open menu</span>
-                <MoreHorizontal className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-48">
-              <DropdownMenuLabel className="text-xs font-semibold text-gray-600">
-                Request Actions
-              </DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem
-                onClick={() =>
-                  navigator.clipboard.writeText(String(request.id))
-                }
-                className="cursor-pointer gap-2"
-              >
-                Copy Request ID
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                className="cursor-pointer gap-2"
-                onClick={() => navigate({ to: `/admin/templates/${request.id}` })}
-              >
-                <Eye className="h-4 w-4" />
-                View Details
-              </DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer gap-2">
-                <Download className="h-4 w-4" />
-                Download Document
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem className="text-amber-600 cursor-pointer gap-2 focus:text-amber-600">
-                <AlertCircle className="h-4 w-4" />
-                Mark as Pending
-              </DropdownMenuItem>
-              <DropdownMenuItem className="text-green-600 cursor-pointer gap-2 focus:text-green-600">
-                <CheckCircle className="h-4 w-4" />
-                Mark as Completed
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        )
-      },
-    },
-  ]
+  const handleDeleteTemplate = (templateId: number) => {
+    // Add your delete logic here
+    console.log('Delete template:', templateId);
+    toast.info(`Template ${templateId} marked for deletion`);
+  }
 
   return (
     <>
@@ -393,7 +173,6 @@ function RouteComponent() {
                 </p>
               </div>
               <div className="flex gap-2">
-
                 <Dialog open={open} onOpenChange={setOpen}>
                   <DialogTrigger asChild>
                     <Button variant="outline" size="sm" className="gap-2">
@@ -401,52 +180,61 @@ function RouteComponent() {
                       Create Template
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="min-w-xl">
+                  <DialogContent className="min-w-xl max-w-2xl">
                     <form onSubmit={createTemplateForm.handleSubmit(onCreateTemplate)} className='space-y-4'>
                       <DialogHeader>
-                        <DialogTitle>Create document template.</DialogTitle>
+                        <DialogTitle>Create document template</DialogTitle>
                         <DialogDescription>
-                          Create new document template.
+                          Create a new document template for your system
                         </DialogDescription>
                       </DialogHeader>
                       <div className="grid gap-4">
-                        <div className='col-span-2 flex gap-3 items-center'>
-                          <div className="grid gap-3 w-[80%]">
-                            <Label htmlFor="name">Name</Label>
-                            <Input id="name" {...createTemplateForm.register('name')} />
+                        <div className='grid grid-cols-3 gap-4'>
+                          <div className="col-span-2">
+                            <Label htmlFor="name">Name *</Label>
+                            <Input
+                              id="name"
+                              {...createTemplateForm.register('name', { required: 'Name is required' })}
+                              placeholder="Enter template name"
+                            />
                           </div>
-                          <div className="grid gap-3 w-[20%]">
-                            <Label htmlFor="version">Version</Label>
-                            <Input id="version" {...createTemplateForm.register('version')} />
+                          <div>
+                            <Label htmlFor="version">Version *</Label>
+                            <Input
+                              id="version"
+                              {...createTemplateForm.register('version', { required: 'Version is required' })}
+                              placeholder="1.0.0"
+                            />
                           </div>
                         </div>
 
-                        <div className="grid col-span-2 gap-3">
+                        <div>
                           <Label>Description (Optional)</Label>
-                          <Textarea {...createTemplateForm.register('description')} />
+                          <Textarea
+                            {...createTemplateForm.register('description')}
+                            placeholder="Describe what this template is for"
+                            rows={3}
+                          />
                         </div>
 
-                        <div className='col-span-2 flex items-end gap-3'>
-                          <div className="grid gap-3 w-[80%]">
-                            <Label>Document</Label>
+                        <div className='grid grid-cols-3 gap-4 items-end'>
+                          <div className="col-span-2">
+                            <Label>Document *</Label>
                             <Controller
                               name="documentId"
                               control={createTemplateForm.control}
-                              rules={{ required: 'Role is required' }}
+                              rules={{ required: 'Document is required' }}
                               render={({ field }) => (
                                 <Select
                                   value={String(field.value ?? '')}
                                   onValueChange={(value) => field.onChange(Number(value))}
-
                                 >
                                   <SelectTrigger className="w-full">
-                                    <SelectValue placeholder="Select a role" />
+                                    <SelectValue placeholder="Select a document" />
                                   </SelectTrigger>
-
                                   <SelectContent>
                                     <SelectGroup>
-                                      <SelectLabel>Role</SelectLabel>
-
+                                      <SelectLabel>Available Documents</SelectLabel>
                                       {documents.map((item) => (
                                         <SelectItem key={item.id} value={String(item.id)}>
                                           {item.title}
@@ -459,14 +247,14 @@ function RouteComponent() {
                             />
                           </div>
 
-                          <div className="flex items-center justify-start mb-2 gap-2 w-[20%]">
+                          <div className="flex items-center gap-3">
                             <Switch
                               checked={createTemplateForm.watch('isActive')}
                               onCheckedChange={(v) =>
                                 createTemplateForm.setValue('isActive', v)
                               }
                             />
-                            <Label>Active</Label>
+                            <Label htmlFor="isActive">Active</Label>
                           </div>
                         </div>
                       </div>
@@ -474,24 +262,170 @@ function RouteComponent() {
                         <DialogClose asChild>
                           <Button variant="outline">Cancel</Button>
                         </DialogClose>
-                        <Button type="submit">Save changes</Button>
+                        <Button type="submit">Create Template</Button>
                       </DialogFooter>
                     </form>
                   </DialogContent>
                 </Dialog>
               </div>
             </div>
+
+            {/* Bulk selection controls */}
+            {templates.length > 0 && (
+              <div className="flex items-center gap-4 pt-4">
+                <div className="flex items-center gap-2">
+                  <Checkbox
+                    checked={selectedTemplates.length === templates.length && templates.length > 0}
+                    onCheckedChange={selectAllTemplates}
+                    aria-label="Select all templates"
+                  />
+                  <Label className="text-sm font-medium">
+                    {selectedTemplates.length} of {templates.length} selected
+                  </Label>
+                </div>
+                {selectedTemplates.length > 0 && (
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    onClick={() => {
+                      // Handle bulk delete
+                      selectedTemplates.forEach(id => handleDeleteTemplate(id));
+                      setSelectedTemplates([]);
+                    }}
+                    className="gap-2"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                    Delete Selected ({selectedTemplates.length})
+                  </Button>
+                )}
+              </div>
+            )}
           </div>
 
+          {templates.length === 0 ? (
+            <div className="text-center py-12">
+              <FileText className="w-16 h-16 mx-auto text-muted-foreground mb-4 opacity-50" />
+              <h2 className="text-2xl font-semibold mb-2">No templates yet</h2>
+              <p className="text-muted-foreground mb-6">
+                Create your first template to get started with the document builder.
+              </p>
+              <Dialog open={open} onOpenChange={setOpen}>
+                <DialogTrigger asChild>
+                  <Button size="sm" className="gap-2">
+                    <Grid2X2Plus className="h-4 w-4" />
+                    Create Template
+                  </Button>
+                </DialogTrigger>
+              </Dialog>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {templates.map((template) => {
+                const isSelected = selectedTemplates.includes(template.id);
 
-          <DataTable
-            columns={columns}
-            data={templates}
-            filterColumn="name"
-            filterPlaceholder="Search by name..."
-          />
+                return (
+                  <Card
+                    key={template.id}
+                    className={`hover:shadow-lg transition-shadow ${isSelected ? 'ring-2 ring-blue-500' : ''}`}
+                    onClick={() => toggleTemplateSelection(template.id)}
+                  >
+                    <CardHeader className="pb-3">
+                      <div className="flex items-start justify-between">
+                        <div className="flex items-start gap-3">
+                          <Checkbox
+                            checked={isSelected}
+                            onCheckedChange={(checked) => {
+                              toggleTemplateSelection(template.id);
+                            }}
+                            onClick={(e) => e.stopPropagation()}
+                            aria-label={`Select template ${template.name}`}
+                          />
+                          <div>
+                            <CardTitle className="line-clamp-2 text-lg">{template.name}</CardTitle>
+                            <CardDescription className="mt-1">
+                              {template?.description || 'No description'}
+                            </CardDescription>
+                          </div>
+                        </div>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            navigate({ to: `/admin/templates/${template.id}` });
+                          }}
+                        >
+                          <Eye className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-3 text-sm text-muted-foreground">
+                        <div className="flex items-center justify-between">
+                          <span>Version:</span>
+                          <span className="font-medium">{template.version || '1.0.0'}</span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span>Document:</span>
+                          <span className="font-medium truncate max-w-[150px]">
+                            {template.document?.title || 'No document'}
+                          </span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span>Status:</span>
+                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${template.isActive
+                            ? 'bg-green-100 text-green-800'
+                            : 'bg-red-100 text-red-800'
+                            }`}>
+                            {template.isActive ? 'ACTIVE' : 'INACTIVE'}
+                          </span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span>Created:</span>
+                          <span>{new Date(template.createdAt).toLocaleDateString()}</span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span>Modified:</span>
+                          <span>{new Date(template.updatedAt).toLocaleDateString()}</span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span>Created By:</span>
+                          <span className="truncate max-w-[150px]">
+                            {template.createdBy?.email || 'Unknown'}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="flex gap-2 pt-4 mt-4 border-t">
+                        <Link
+                          to="/admin/templates/$id"
+                          params={{ id: template.id.toString() }}
+                          className="flex-1"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <Button variant="default" className="w-full">
+                            Edit Template
+                          </Button>
+                        </Link>
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleDeleteTemplate(template.id);
+                          }}
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
+          )}
         </div>
-      </main >
+      </main>
     </>
   )
 }

@@ -122,9 +122,6 @@ function RouteComponent() {
     }
 
 
-
-
-
     return (
         <div className="relative grid lg:grid-cols-2 min-h-screen px-4 sm:px-8 py-6 lg:py-12 overflow-x-hidden">
             <div className="absolute top-4 right-4 sm:top-6 sm:right-6 flex flex-wrap gap-2 justify-end z-10">
