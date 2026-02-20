@@ -16,7 +16,7 @@ import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { useAppSelector } from '@/store/hooks'
 
-export const Route = createFileRoute('/admin/faculty/')({
+export const Route = createFileRoute('/dashboard/faculty/')({
     component: RouteComponent,
 })
 

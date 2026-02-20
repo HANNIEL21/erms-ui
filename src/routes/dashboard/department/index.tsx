@@ -9,7 +9,7 @@ import { toast } from 'sonner'
 
 import { getDepartments, type Department } from '@/service'
 
-export const Route = createFileRoute('/admin/department/')({
+export const Route = createFileRoute('/dashboard/department/')({
   component: RouteComponent,
 })
 

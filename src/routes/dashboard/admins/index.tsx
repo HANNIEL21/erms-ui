@@ -27,7 +27,7 @@ import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { useState } from 'react'
 
-export const Route = createFileRoute('/admin/admins/')({
+export const Route = createFileRoute('/dashboard/admins/')({
   component: RouteComponent,
 })
 

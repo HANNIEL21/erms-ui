@@ -11,22 +11,18 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { createFileRoute } from '@tanstack/react-router'
 import type { ColumnDef } from '@tanstack/react-table'
-import { MoreHorizontal, Mail, Calendar, CheckCircle, FileText, Download, Filter, Clock, AlertCircle, Upload, Info, X } from 'lucide-react'
+import { MoreHorizontal, Mail, Calendar, CheckCircle, FileText, Filter, Clock, AlertCircle} from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
 import { toast } from 'sonner'
-
 import { getCombos, updatePrintStatus, type Combo, } from '@/service'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Separator } from '@/components/ui/separator'
 import { SiteHeader } from '@/components/site-header'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
-import { Label } from '@/components/ui/label'
-import { Input } from '@/components/ui/input'
 import DropBox from '@/components/dropbox'
 
-export const Route = createFileRoute('/admin/combo/')({
+export const Route = createFileRoute('/dashboard/combo/')({
   component: RouteComponent,
 })
 

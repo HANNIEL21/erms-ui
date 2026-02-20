@@ -22,7 +22,7 @@ import { SiteHeader } from '@/components/site-header'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
-export const Route = createFileRoute('/admin/requests/')({
+export const Route = createFileRoute('/dashboard/requests/')({
   component: RouteComponent,
 })
 
@@ -327,13 +327,12 @@ function RouteComponent() {
   const totalRequests = requests.length
   const pendingRequests = requests.filter(req => req.status === 'PENDING').length
   const successfulRequests = requests.filter(req => req.status === 'SUCCESSFUL').length
-  const totalRevenue = requests.reduce((sum, req) => sum + (req.document?.totalAmount || 0), 0)
 
   return (
     <>
       <SiteHeader title='Requests' />
 
-      <main className="min-h-screen p-4 lg:p-6">
+      <main className="min-h-screen p-4 lg:p-6 bg-gray-50">
         <div className="mx-auto max-w-7xl space-y-6">
           <div className="space-y-2">
             <div className="flex items-center justify-between">
@@ -382,19 +381,6 @@ function RouteComponent() {
                   <CheckCircle className="h-5 w-5 text-green-600" />
                 </div>
                 <h3 className="text-2xl font-bold">{successfulRequests}</h3>
-              </div>
-            </div>
-            <div className='grid gap-4 p-4 shadow rounded-2xl bg-white'>
-              <p className="text-sm font-medium text-gray-600">Total Revenue</p>
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-purple-100">
-                  <CreditCard className="h-5 w-5 text-purple-600" />
-                </div>
-                <h3 className="text-xl font-bold">{new Intl.NumberFormat("en-US", {
-                  style: "currency",
-                  currency: "NGN",
-                  minimumFractionDigits: 0,
-                }).format(totalRevenue)}</h3>
               </div>
             </div>
           </div>

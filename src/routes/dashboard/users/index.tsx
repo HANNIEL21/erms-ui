@@ -21,7 +21,7 @@ import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
 import { SiteHeader } from '@/components/site-header'
 
-export const Route = createFileRoute('/admin/users/')({
+export const Route = createFileRoute('/dashboard/users/')({
   component: RouteComponent,
 })
 

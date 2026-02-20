@@ -13,30 +13,27 @@ import { Route as VerifyRouteImport } from './routes/verify'
 import { Route as CertificateRouteImport } from './routes/certificate'
 import { Route as UserRouteRouteImport } from './routes/user/route'
 import { Route as FacultyRouteRouteImport } from './routes/faculty/route'
-import { Route as AdminRouteRouteImport } from './routes/admin/route'
+import { Route as DashboardRouteRouteImport } from './routes/dashboard/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as UserIndexRouteImport } from './routes/user/index'
 import { Route as FacultyIndexRouteImport } from './routes/faculty/index'
-import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
 import { Route as UserTransactionsIndexRouteImport } from './routes/user/transactions/index'
 import { Route as UserRequestsIndexRouteImport } from './routes/user/requests/index'
-import { Route as AdminVetIndexRouteImport } from './routes/admin/vet/index'
-import { Route as AdminUsersIndexRouteImport } from './routes/admin/users/index'
-import { Route as AdminTransactionsIndexRouteImport } from './routes/admin/transactions/index'
-import { Route as AdminTemplatesIndexRouteImport } from './routes/admin/templates/index'
-import { Route as AdminRolesIndexRouteImport } from './routes/admin/roles/index'
-import { Route as AdminRequestsIndexRouteImport } from './routes/admin/requests/index'
-import { Route as AdminFacultyIndexRouteImport } from './routes/admin/faculty/index'
-import { Route as AdminDocumentsIndexRouteImport } from './routes/admin/documents/index'
-import { Route as AdminDepartmentIndexRouteImport } from './routes/admin/department/index'
-import { Route as AdminComboIndexRouteImport } from './routes/admin/combo/index'
-import { Route as AdminChainIndexRouteImport } from './routes/admin/chain/index'
-import { Route as AdminAdminsIndexRouteImport } from './routes/admin/admins/index'
+import { Route as DashboardVetIndexRouteImport } from './routes/dashboard/vet/index'
+import { Route as DashboardUsersIndexRouteImport } from './routes/dashboard/users/index'
+import { Route as DashboardTransactionsIndexRouteImport } from './routes/dashboard/transactions/index'
+import { Route as DashboardRolesIndexRouteImport } from './routes/dashboard/roles/index'
+import { Route as DashboardRequestsIndexRouteImport } from './routes/dashboard/requests/index'
+import { Route as DashboardFacultyIndexRouteImport } from './routes/dashboard/faculty/index'
+import { Route as DashboardDocumentsIndexRouteImport } from './routes/dashboard/documents/index'
+import { Route as DashboardDepartmentIndexRouteImport } from './routes/dashboard/department/index'
+import { Route as DashboardComboIndexRouteImport } from './routes/dashboard/combo/index'
+import { Route as DashboardChainIndexRouteImport } from './routes/dashboard/chain/index'
+import { Route as DashboardApprovedIndexRouteImport } from './routes/dashboard/approved/index'
+import { Route as DashboardAdminsIndexRouteImport } from './routes/dashboard/admins/index'
 import { Route as UserRequestsIdRouteImport } from './routes/user/requests/id'
-import { Route as AdminTemplatesIdRouteImport } from './routes/admin/templates/$id'
-import { Route as AdminTemplatesComponentsIndexRouteImport } from './routes/admin/templates/components/index'
-import { Route as AdminTemplatesComponentsIdRouteImport } from './routes/admin/templates/components/$id'
 
 const VerifyRoute = VerifyRouteImport.update({
   id: '/verify',
@@ -58,9 +55,9 @@ const FacultyRouteRoute = FacultyRouteRouteImport.update({
   path: '/faculty',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminRouteRoute = AdminRouteRouteImport.update({
-  id: '/admin',
-  path: '/admin',
+const DashboardRouteRoute = DashboardRouteRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -78,10 +75,10 @@ const FacultyIndexRoute = FacultyIndexRouteImport.update({
   path: '/',
   getParentRoute: () => FacultyRouteRoute,
 } as any)
-const AdminIndexRoute = AdminIndexRouteImport.update({
+const DashboardIndexRoute = DashboardIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => AdminRouteRoute,
+  getParentRoute: () => DashboardRouteRoute,
 } as any)
 const AuthLoginRoute = AuthLoginRouteImport.update({
   id: '/auth/login',
@@ -98,270 +95,237 @@ const UserRequestsIndexRoute = UserRequestsIndexRouteImport.update({
   path: '/requests/',
   getParentRoute: () => UserRouteRoute,
 } as any)
-const AdminVetIndexRoute = AdminVetIndexRouteImport.update({
+const DashboardVetIndexRoute = DashboardVetIndexRouteImport.update({
   id: '/vet/',
   path: '/vet/',
-  getParentRoute: () => AdminRouteRoute,
+  getParentRoute: () => DashboardRouteRoute,
 } as any)
-const AdminUsersIndexRoute = AdminUsersIndexRouteImport.update({
+const DashboardUsersIndexRoute = DashboardUsersIndexRouteImport.update({
   id: '/users/',
   path: '/users/',
-  getParentRoute: () => AdminRouteRoute,
+  getParentRoute: () => DashboardRouteRoute,
 } as any)
-const AdminTransactionsIndexRoute = AdminTransactionsIndexRouteImport.update({
-  id: '/transactions/',
-  path: '/transactions/',
-  getParentRoute: () => AdminRouteRoute,
-} as any)
-const AdminTemplatesIndexRoute = AdminTemplatesIndexRouteImport.update({
-  id: '/templates/',
-  path: '/templates/',
-  getParentRoute: () => AdminRouteRoute,
-} as any)
-const AdminRolesIndexRoute = AdminRolesIndexRouteImport.update({
+const DashboardTransactionsIndexRoute =
+  DashboardTransactionsIndexRouteImport.update({
+    id: '/transactions/',
+    path: '/transactions/',
+    getParentRoute: () => DashboardRouteRoute,
+  } as any)
+const DashboardRolesIndexRoute = DashboardRolesIndexRouteImport.update({
   id: '/roles/',
   path: '/roles/',
-  getParentRoute: () => AdminRouteRoute,
+  getParentRoute: () => DashboardRouteRoute,
 } as any)
-const AdminRequestsIndexRoute = AdminRequestsIndexRouteImport.update({
+const DashboardRequestsIndexRoute = DashboardRequestsIndexRouteImport.update({
   id: '/requests/',
   path: '/requests/',
-  getParentRoute: () => AdminRouteRoute,
+  getParentRoute: () => DashboardRouteRoute,
 } as any)
-const AdminFacultyIndexRoute = AdminFacultyIndexRouteImport.update({
+const DashboardFacultyIndexRoute = DashboardFacultyIndexRouteImport.update({
   id: '/faculty/',
   path: '/faculty/',
-  getParentRoute: () => AdminRouteRoute,
+  getParentRoute: () => DashboardRouteRoute,
 } as any)
-const AdminDocumentsIndexRoute = AdminDocumentsIndexRouteImport.update({
+const DashboardDocumentsIndexRoute = DashboardDocumentsIndexRouteImport.update({
   id: '/documents/',
   path: '/documents/',
-  getParentRoute: () => AdminRouteRoute,
+  getParentRoute: () => DashboardRouteRoute,
 } as any)
-const AdminDepartmentIndexRoute = AdminDepartmentIndexRouteImport.update({
-  id: '/department/',
-  path: '/department/',
-  getParentRoute: () => AdminRouteRoute,
-} as any)
-const AdminComboIndexRoute = AdminComboIndexRouteImport.update({
+const DashboardDepartmentIndexRoute =
+  DashboardDepartmentIndexRouteImport.update({
+    id: '/department/',
+    path: '/department/',
+    getParentRoute: () => DashboardRouteRoute,
+  } as any)
+const DashboardComboIndexRoute = DashboardComboIndexRouteImport.update({
   id: '/combo/',
   path: '/combo/',
-  getParentRoute: () => AdminRouteRoute,
+  getParentRoute: () => DashboardRouteRoute,
 } as any)
-const AdminChainIndexRoute = AdminChainIndexRouteImport.update({
+const DashboardChainIndexRoute = DashboardChainIndexRouteImport.update({
   id: '/chain/',
   path: '/chain/',
-  getParentRoute: () => AdminRouteRoute,
+  getParentRoute: () => DashboardRouteRoute,
 } as any)
-const AdminAdminsIndexRoute = AdminAdminsIndexRouteImport.update({
+const DashboardApprovedIndexRoute = DashboardApprovedIndexRouteImport.update({
+  id: '/approved/',
+  path: '/approved/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardAdminsIndexRoute = DashboardAdminsIndexRouteImport.update({
   id: '/admins/',
   path: '/admins/',
-  getParentRoute: () => AdminRouteRoute,
+  getParentRoute: () => DashboardRouteRoute,
 } as any)
 const UserRequestsIdRoute = UserRequestsIdRouteImport.update({
   id: '/requests/id',
   path: '/requests/id',
   getParentRoute: () => UserRouteRoute,
 } as any)
-const AdminTemplatesIdRoute = AdminTemplatesIdRouteImport.update({
-  id: '/templates/$id',
-  path: '/templates/$id',
-  getParentRoute: () => AdminRouteRoute,
-} as any)
-const AdminTemplatesComponentsIndexRoute =
-  AdminTemplatesComponentsIndexRouteImport.update({
-    id: '/templates/components/',
-    path: '/templates/components/',
-    getParentRoute: () => AdminRouteRoute,
-  } as any)
-const AdminTemplatesComponentsIdRoute =
-  AdminTemplatesComponentsIdRouteImport.update({
-    id: '/templates/components/$id',
-    path: '/templates/components/$id',
-    getParentRoute: () => AdminRouteRoute,
-  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/admin': typeof AdminRouteRouteWithChildren
+  '/dashboard': typeof DashboardRouteRouteWithChildren
   '/faculty': typeof FacultyRouteRouteWithChildren
   '/user': typeof UserRouteRouteWithChildren
   '/certificate': typeof CertificateRoute
   '/verify': typeof VerifyRoute
   '/auth/login': typeof AuthLoginRoute
-  '/admin/': typeof AdminIndexRoute
+  '/dashboard/': typeof DashboardIndexRoute
   '/faculty/': typeof FacultyIndexRoute
   '/user/': typeof UserIndexRoute
-  '/admin/templates/$id': typeof AdminTemplatesIdRoute
   '/user/requests/id': typeof UserRequestsIdRoute
-  '/admin/admins': typeof AdminAdminsIndexRoute
-  '/admin/chain': typeof AdminChainIndexRoute
-  '/admin/combo': typeof AdminComboIndexRoute
-  '/admin/department': typeof AdminDepartmentIndexRoute
-  '/admin/documents': typeof AdminDocumentsIndexRoute
-  '/admin/faculty': typeof AdminFacultyIndexRoute
-  '/admin/requests': typeof AdminRequestsIndexRoute
-  '/admin/roles': typeof AdminRolesIndexRoute
-  '/admin/templates': typeof AdminTemplatesIndexRoute
-  '/admin/transactions': typeof AdminTransactionsIndexRoute
-  '/admin/users': typeof AdminUsersIndexRoute
-  '/admin/vet': typeof AdminVetIndexRoute
+  '/dashboard/admins': typeof DashboardAdminsIndexRoute
+  '/dashboard/approved': typeof DashboardApprovedIndexRoute
+  '/dashboard/chain': typeof DashboardChainIndexRoute
+  '/dashboard/combo': typeof DashboardComboIndexRoute
+  '/dashboard/department': typeof DashboardDepartmentIndexRoute
+  '/dashboard/documents': typeof DashboardDocumentsIndexRoute
+  '/dashboard/faculty': typeof DashboardFacultyIndexRoute
+  '/dashboard/requests': typeof DashboardRequestsIndexRoute
+  '/dashboard/roles': typeof DashboardRolesIndexRoute
+  '/dashboard/transactions': typeof DashboardTransactionsIndexRoute
+  '/dashboard/users': typeof DashboardUsersIndexRoute
+  '/dashboard/vet': typeof DashboardVetIndexRoute
   '/user/requests': typeof UserRequestsIndexRoute
   '/user/transactions': typeof UserTransactionsIndexRoute
-  '/admin/templates/components/$id': typeof AdminTemplatesComponentsIdRoute
-  '/admin/templates/components': typeof AdminTemplatesComponentsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/certificate': typeof CertificateRoute
   '/verify': typeof VerifyRoute
   '/auth/login': typeof AuthLoginRoute
-  '/admin': typeof AdminIndexRoute
+  '/dashboard': typeof DashboardIndexRoute
   '/faculty': typeof FacultyIndexRoute
   '/user': typeof UserIndexRoute
-  '/admin/templates/$id': typeof AdminTemplatesIdRoute
   '/user/requests/id': typeof UserRequestsIdRoute
-  '/admin/admins': typeof AdminAdminsIndexRoute
-  '/admin/chain': typeof AdminChainIndexRoute
-  '/admin/combo': typeof AdminComboIndexRoute
-  '/admin/department': typeof AdminDepartmentIndexRoute
-  '/admin/documents': typeof AdminDocumentsIndexRoute
-  '/admin/faculty': typeof AdminFacultyIndexRoute
-  '/admin/requests': typeof AdminRequestsIndexRoute
-  '/admin/roles': typeof AdminRolesIndexRoute
-  '/admin/templates': typeof AdminTemplatesIndexRoute
-  '/admin/transactions': typeof AdminTransactionsIndexRoute
-  '/admin/users': typeof AdminUsersIndexRoute
-  '/admin/vet': typeof AdminVetIndexRoute
+  '/dashboard/admins': typeof DashboardAdminsIndexRoute
+  '/dashboard/approved': typeof DashboardApprovedIndexRoute
+  '/dashboard/chain': typeof DashboardChainIndexRoute
+  '/dashboard/combo': typeof DashboardComboIndexRoute
+  '/dashboard/department': typeof DashboardDepartmentIndexRoute
+  '/dashboard/documents': typeof DashboardDocumentsIndexRoute
+  '/dashboard/faculty': typeof DashboardFacultyIndexRoute
+  '/dashboard/requests': typeof DashboardRequestsIndexRoute
+  '/dashboard/roles': typeof DashboardRolesIndexRoute
+  '/dashboard/transactions': typeof DashboardTransactionsIndexRoute
+  '/dashboard/users': typeof DashboardUsersIndexRoute
+  '/dashboard/vet': typeof DashboardVetIndexRoute
   '/user/requests': typeof UserRequestsIndexRoute
   '/user/transactions': typeof UserTransactionsIndexRoute
-  '/admin/templates/components/$id': typeof AdminTemplatesComponentsIdRoute
-  '/admin/templates/components': typeof AdminTemplatesComponentsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/admin': typeof AdminRouteRouteWithChildren
+  '/dashboard': typeof DashboardRouteRouteWithChildren
   '/faculty': typeof FacultyRouteRouteWithChildren
   '/user': typeof UserRouteRouteWithChildren
   '/certificate': typeof CertificateRoute
   '/verify': typeof VerifyRoute
   '/auth/login': typeof AuthLoginRoute
-  '/admin/': typeof AdminIndexRoute
+  '/dashboard/': typeof DashboardIndexRoute
   '/faculty/': typeof FacultyIndexRoute
   '/user/': typeof UserIndexRoute
-  '/admin/templates/$id': typeof AdminTemplatesIdRoute
   '/user/requests/id': typeof UserRequestsIdRoute
-  '/admin/admins/': typeof AdminAdminsIndexRoute
-  '/admin/chain/': typeof AdminChainIndexRoute
-  '/admin/combo/': typeof AdminComboIndexRoute
-  '/admin/department/': typeof AdminDepartmentIndexRoute
-  '/admin/documents/': typeof AdminDocumentsIndexRoute
-  '/admin/faculty/': typeof AdminFacultyIndexRoute
-  '/admin/requests/': typeof AdminRequestsIndexRoute
-  '/admin/roles/': typeof AdminRolesIndexRoute
-  '/admin/templates/': typeof AdminTemplatesIndexRoute
-  '/admin/transactions/': typeof AdminTransactionsIndexRoute
-  '/admin/users/': typeof AdminUsersIndexRoute
-  '/admin/vet/': typeof AdminVetIndexRoute
+  '/dashboard/admins/': typeof DashboardAdminsIndexRoute
+  '/dashboard/approved/': typeof DashboardApprovedIndexRoute
+  '/dashboard/chain/': typeof DashboardChainIndexRoute
+  '/dashboard/combo/': typeof DashboardComboIndexRoute
+  '/dashboard/department/': typeof DashboardDepartmentIndexRoute
+  '/dashboard/documents/': typeof DashboardDocumentsIndexRoute
+  '/dashboard/faculty/': typeof DashboardFacultyIndexRoute
+  '/dashboard/requests/': typeof DashboardRequestsIndexRoute
+  '/dashboard/roles/': typeof DashboardRolesIndexRoute
+  '/dashboard/transactions/': typeof DashboardTransactionsIndexRoute
+  '/dashboard/users/': typeof DashboardUsersIndexRoute
+  '/dashboard/vet/': typeof DashboardVetIndexRoute
   '/user/requests/': typeof UserRequestsIndexRoute
   '/user/transactions/': typeof UserTransactionsIndexRoute
-  '/admin/templates/components/$id': typeof AdminTemplatesComponentsIdRoute
-  '/admin/templates/components/': typeof AdminTemplatesComponentsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/admin'
+    | '/dashboard'
     | '/faculty'
     | '/user'
     | '/certificate'
     | '/verify'
     | '/auth/login'
-    | '/admin/'
+    | '/dashboard/'
     | '/faculty/'
     | '/user/'
-    | '/admin/templates/$id'
     | '/user/requests/id'
-    | '/admin/admins'
-    | '/admin/chain'
-    | '/admin/combo'
-    | '/admin/department'
-    | '/admin/documents'
-    | '/admin/faculty'
-    | '/admin/requests'
-    | '/admin/roles'
-    | '/admin/templates'
-    | '/admin/transactions'
-    | '/admin/users'
-    | '/admin/vet'
+    | '/dashboard/admins'
+    | '/dashboard/approved'
+    | '/dashboard/chain'
+    | '/dashboard/combo'
+    | '/dashboard/department'
+    | '/dashboard/documents'
+    | '/dashboard/faculty'
+    | '/dashboard/requests'
+    | '/dashboard/roles'
+    | '/dashboard/transactions'
+    | '/dashboard/users'
+    | '/dashboard/vet'
     | '/user/requests'
     | '/user/transactions'
-    | '/admin/templates/components/$id'
-    | '/admin/templates/components'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/certificate'
     | '/verify'
     | '/auth/login'
-    | '/admin'
+    | '/dashboard'
     | '/faculty'
     | '/user'
-    | '/admin/templates/$id'
     | '/user/requests/id'
-    | '/admin/admins'
-    | '/admin/chain'
-    | '/admin/combo'
-    | '/admin/department'
-    | '/admin/documents'
-    | '/admin/faculty'
-    | '/admin/requests'
-    | '/admin/roles'
-    | '/admin/templates'
-    | '/admin/transactions'
-    | '/admin/users'
-    | '/admin/vet'
+    | '/dashboard/admins'
+    | '/dashboard/approved'
+    | '/dashboard/chain'
+    | '/dashboard/combo'
+    | '/dashboard/department'
+    | '/dashboard/documents'
+    | '/dashboard/faculty'
+    | '/dashboard/requests'
+    | '/dashboard/roles'
+    | '/dashboard/transactions'
+    | '/dashboard/users'
+    | '/dashboard/vet'
     | '/user/requests'
     | '/user/transactions'
-    | '/admin/templates/components/$id'
-    | '/admin/templates/components'
   id:
     | '__root__'
     | '/'
-    | '/admin'
+    | '/dashboard'
     | '/faculty'
     | '/user'
     | '/certificate'
     | '/verify'
     | '/auth/login'
-    | '/admin/'
+    | '/dashboard/'
     | '/faculty/'
     | '/user/'
-    | '/admin/templates/$id'
     | '/user/requests/id'
-    | '/admin/admins/'
-    | '/admin/chain/'
-    | '/admin/combo/'
-    | '/admin/department/'
-    | '/admin/documents/'
-    | '/admin/faculty/'
-    | '/admin/requests/'
-    | '/admin/roles/'
-    | '/admin/templates/'
-    | '/admin/transactions/'
-    | '/admin/users/'
-    | '/admin/vet/'
+    | '/dashboard/admins/'
+    | '/dashboard/approved/'
+    | '/dashboard/chain/'
+    | '/dashboard/combo/'
+    | '/dashboard/department/'
+    | '/dashboard/documents/'
+    | '/dashboard/faculty/'
+    | '/dashboard/requests/'
+    | '/dashboard/roles/'
+    | '/dashboard/transactions/'
+    | '/dashboard/users/'
+    | '/dashboard/vet/'
     | '/user/requests/'
     | '/user/transactions/'
-    | '/admin/templates/components/$id'
-    | '/admin/templates/components/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AdminRouteRoute: typeof AdminRouteRouteWithChildren
+  DashboardRouteRoute: typeof DashboardRouteRouteWithChildren
   FacultyRouteRoute: typeof FacultyRouteRouteWithChildren
   UserRouteRoute: typeof UserRouteRouteWithChildren
   CertificateRoute: typeof CertificateRoute
@@ -399,11 +363,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FacultyRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin': {
-      id: '/admin'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AdminRouteRouteImport
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -427,12 +391,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FacultyIndexRouteImport
       parentRoute: typeof FacultyRouteRoute
     }
-    '/admin/': {
-      id: '/admin/'
+    '/dashboard/': {
+      id: '/dashboard/'
       path: '/'
-      fullPath: '/admin/'
-      preLoaderRoute: typeof AdminIndexRouteImport
-      parentRoute: typeof AdminRouteRoute
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof DashboardIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
     }
     '/auth/login': {
       id: '/auth/login'
@@ -455,89 +419,89 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UserRequestsIndexRouteImport
       parentRoute: typeof UserRouteRoute
     }
-    '/admin/vet/': {
-      id: '/admin/vet/'
+    '/dashboard/vet/': {
+      id: '/dashboard/vet/'
       path: '/vet'
-      fullPath: '/admin/vet'
-      preLoaderRoute: typeof AdminVetIndexRouteImport
-      parentRoute: typeof AdminRouteRoute
+      fullPath: '/dashboard/vet'
+      preLoaderRoute: typeof DashboardVetIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
     }
-    '/admin/users/': {
-      id: '/admin/users/'
+    '/dashboard/users/': {
+      id: '/dashboard/users/'
       path: '/users'
-      fullPath: '/admin/users'
-      preLoaderRoute: typeof AdminUsersIndexRouteImport
-      parentRoute: typeof AdminRouteRoute
+      fullPath: '/dashboard/users'
+      preLoaderRoute: typeof DashboardUsersIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
     }
-    '/admin/transactions/': {
-      id: '/admin/transactions/'
+    '/dashboard/transactions/': {
+      id: '/dashboard/transactions/'
       path: '/transactions'
-      fullPath: '/admin/transactions'
-      preLoaderRoute: typeof AdminTransactionsIndexRouteImport
-      parentRoute: typeof AdminRouteRoute
+      fullPath: '/dashboard/transactions'
+      preLoaderRoute: typeof DashboardTransactionsIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
     }
-    '/admin/templates/': {
-      id: '/admin/templates/'
-      path: '/templates'
-      fullPath: '/admin/templates'
-      preLoaderRoute: typeof AdminTemplatesIndexRouteImport
-      parentRoute: typeof AdminRouteRoute
-    }
-    '/admin/roles/': {
-      id: '/admin/roles/'
+    '/dashboard/roles/': {
+      id: '/dashboard/roles/'
       path: '/roles'
-      fullPath: '/admin/roles'
-      preLoaderRoute: typeof AdminRolesIndexRouteImport
-      parentRoute: typeof AdminRouteRoute
+      fullPath: '/dashboard/roles'
+      preLoaderRoute: typeof DashboardRolesIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
     }
-    '/admin/requests/': {
-      id: '/admin/requests/'
+    '/dashboard/requests/': {
+      id: '/dashboard/requests/'
       path: '/requests'
-      fullPath: '/admin/requests'
-      preLoaderRoute: typeof AdminRequestsIndexRouteImport
-      parentRoute: typeof AdminRouteRoute
+      fullPath: '/dashboard/requests'
+      preLoaderRoute: typeof DashboardRequestsIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
     }
-    '/admin/faculty/': {
-      id: '/admin/faculty/'
+    '/dashboard/faculty/': {
+      id: '/dashboard/faculty/'
       path: '/faculty'
-      fullPath: '/admin/faculty'
-      preLoaderRoute: typeof AdminFacultyIndexRouteImport
-      parentRoute: typeof AdminRouteRoute
+      fullPath: '/dashboard/faculty'
+      preLoaderRoute: typeof DashboardFacultyIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
     }
-    '/admin/documents/': {
-      id: '/admin/documents/'
+    '/dashboard/documents/': {
+      id: '/dashboard/documents/'
       path: '/documents'
-      fullPath: '/admin/documents'
-      preLoaderRoute: typeof AdminDocumentsIndexRouteImport
-      parentRoute: typeof AdminRouteRoute
+      fullPath: '/dashboard/documents'
+      preLoaderRoute: typeof DashboardDocumentsIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
     }
-    '/admin/department/': {
-      id: '/admin/department/'
+    '/dashboard/department/': {
+      id: '/dashboard/department/'
       path: '/department'
-      fullPath: '/admin/department'
-      preLoaderRoute: typeof AdminDepartmentIndexRouteImport
-      parentRoute: typeof AdminRouteRoute
+      fullPath: '/dashboard/department'
+      preLoaderRoute: typeof DashboardDepartmentIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
     }
-    '/admin/combo/': {
-      id: '/admin/combo/'
+    '/dashboard/combo/': {
+      id: '/dashboard/combo/'
       path: '/combo'
-      fullPath: '/admin/combo'
-      preLoaderRoute: typeof AdminComboIndexRouteImport
-      parentRoute: typeof AdminRouteRoute
+      fullPath: '/dashboard/combo'
+      preLoaderRoute: typeof DashboardComboIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
     }
-    '/admin/chain/': {
-      id: '/admin/chain/'
+    '/dashboard/chain/': {
+      id: '/dashboard/chain/'
       path: '/chain'
-      fullPath: '/admin/chain'
-      preLoaderRoute: typeof AdminChainIndexRouteImport
-      parentRoute: typeof AdminRouteRoute
+      fullPath: '/dashboard/chain'
+      preLoaderRoute: typeof DashboardChainIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
     }
-    '/admin/admins/': {
-      id: '/admin/admins/'
+    '/dashboard/approved/': {
+      id: '/dashboard/approved/'
+      path: '/approved'
+      fullPath: '/dashboard/approved'
+      preLoaderRoute: typeof DashboardApprovedIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/admins/': {
+      id: '/dashboard/admins/'
       path: '/admins'
-      fullPath: '/admin/admins'
-      preLoaderRoute: typeof AdminAdminsIndexRouteImport
-      parentRoute: typeof AdminRouteRoute
+      fullPath: '/dashboard/admins'
+      preLoaderRoute: typeof DashboardAdminsIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
     }
     '/user/requests/id': {
       id: '/user/requests/id'
@@ -546,70 +510,43 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UserRequestsIdRouteImport
       parentRoute: typeof UserRouteRoute
     }
-    '/admin/templates/$id': {
-      id: '/admin/templates/$id'
-      path: '/templates/$id'
-      fullPath: '/admin/templates/$id'
-      preLoaderRoute: typeof AdminTemplatesIdRouteImport
-      parentRoute: typeof AdminRouteRoute
-    }
-    '/admin/templates/components/': {
-      id: '/admin/templates/components/'
-      path: '/templates/components'
-      fullPath: '/admin/templates/components'
-      preLoaderRoute: typeof AdminTemplatesComponentsIndexRouteImport
-      parentRoute: typeof AdminRouteRoute
-    }
-    '/admin/templates/components/$id': {
-      id: '/admin/templates/components/$id'
-      path: '/templates/components/$id'
-      fullPath: '/admin/templates/components/$id'
-      preLoaderRoute: typeof AdminTemplatesComponentsIdRouteImport
-      parentRoute: typeof AdminRouteRoute
-    }
   }
 }
 
-interface AdminRouteRouteChildren {
-  AdminIndexRoute: typeof AdminIndexRoute
-  AdminTemplatesIdRoute: typeof AdminTemplatesIdRoute
-  AdminAdminsIndexRoute: typeof AdminAdminsIndexRoute
-  AdminChainIndexRoute: typeof AdminChainIndexRoute
-  AdminComboIndexRoute: typeof AdminComboIndexRoute
-  AdminDepartmentIndexRoute: typeof AdminDepartmentIndexRoute
-  AdminDocumentsIndexRoute: typeof AdminDocumentsIndexRoute
-  AdminFacultyIndexRoute: typeof AdminFacultyIndexRoute
-  AdminRequestsIndexRoute: typeof AdminRequestsIndexRoute
-  AdminRolesIndexRoute: typeof AdminRolesIndexRoute
-  AdminTemplatesIndexRoute: typeof AdminTemplatesIndexRoute
-  AdminTransactionsIndexRoute: typeof AdminTransactionsIndexRoute
-  AdminUsersIndexRoute: typeof AdminUsersIndexRoute
-  AdminVetIndexRoute: typeof AdminVetIndexRoute
-  AdminTemplatesComponentsIdRoute: typeof AdminTemplatesComponentsIdRoute
-  AdminTemplatesComponentsIndexRoute: typeof AdminTemplatesComponentsIndexRoute
+interface DashboardRouteRouteChildren {
+  DashboardIndexRoute: typeof DashboardIndexRoute
+  DashboardAdminsIndexRoute: typeof DashboardAdminsIndexRoute
+  DashboardApprovedIndexRoute: typeof DashboardApprovedIndexRoute
+  DashboardChainIndexRoute: typeof DashboardChainIndexRoute
+  DashboardComboIndexRoute: typeof DashboardComboIndexRoute
+  DashboardDepartmentIndexRoute: typeof DashboardDepartmentIndexRoute
+  DashboardDocumentsIndexRoute: typeof DashboardDocumentsIndexRoute
+  DashboardFacultyIndexRoute: typeof DashboardFacultyIndexRoute
+  DashboardRequestsIndexRoute: typeof DashboardRequestsIndexRoute
+  DashboardRolesIndexRoute: typeof DashboardRolesIndexRoute
+  DashboardTransactionsIndexRoute: typeof DashboardTransactionsIndexRoute
+  DashboardUsersIndexRoute: typeof DashboardUsersIndexRoute
+  DashboardVetIndexRoute: typeof DashboardVetIndexRoute
 }
 
-const AdminRouteRouteChildren: AdminRouteRouteChildren = {
-  AdminIndexRoute: AdminIndexRoute,
-  AdminTemplatesIdRoute: AdminTemplatesIdRoute,
-  AdminAdminsIndexRoute: AdminAdminsIndexRoute,
-  AdminChainIndexRoute: AdminChainIndexRoute,
-  AdminComboIndexRoute: AdminComboIndexRoute,
-  AdminDepartmentIndexRoute: AdminDepartmentIndexRoute,
-  AdminDocumentsIndexRoute: AdminDocumentsIndexRoute,
-  AdminFacultyIndexRoute: AdminFacultyIndexRoute,
-  AdminRequestsIndexRoute: AdminRequestsIndexRoute,
-  AdminRolesIndexRoute: AdminRolesIndexRoute,
-  AdminTemplatesIndexRoute: AdminTemplatesIndexRoute,
-  AdminTransactionsIndexRoute: AdminTransactionsIndexRoute,
-  AdminUsersIndexRoute: AdminUsersIndexRoute,
-  AdminVetIndexRoute: AdminVetIndexRoute,
-  AdminTemplatesComponentsIdRoute: AdminTemplatesComponentsIdRoute,
-  AdminTemplatesComponentsIndexRoute: AdminTemplatesComponentsIndexRoute,
+const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
+  DashboardIndexRoute: DashboardIndexRoute,
+  DashboardAdminsIndexRoute: DashboardAdminsIndexRoute,
+  DashboardApprovedIndexRoute: DashboardApprovedIndexRoute,
+  DashboardChainIndexRoute: DashboardChainIndexRoute,
+  DashboardComboIndexRoute: DashboardComboIndexRoute,
+  DashboardDepartmentIndexRoute: DashboardDepartmentIndexRoute,
+  DashboardDocumentsIndexRoute: DashboardDocumentsIndexRoute,
+  DashboardFacultyIndexRoute: DashboardFacultyIndexRoute,
+  DashboardRequestsIndexRoute: DashboardRequestsIndexRoute,
+  DashboardRolesIndexRoute: DashboardRolesIndexRoute,
+  DashboardTransactionsIndexRoute: DashboardTransactionsIndexRoute,
+  DashboardUsersIndexRoute: DashboardUsersIndexRoute,
+  DashboardVetIndexRoute: DashboardVetIndexRoute,
 }
 
-const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(
-  AdminRouteRouteChildren,
+const DashboardRouteRouteWithChildren = DashboardRouteRoute._addFileChildren(
+  DashboardRouteRouteChildren,
 )
 
 interface FacultyRouteRouteChildren {
@@ -644,7 +581,7 @@ const UserRouteRouteWithChildren = UserRouteRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AdminRouteRoute: AdminRouteRouteWithChildren,
+  DashboardRouteRoute: DashboardRouteRouteWithChildren,
   FacultyRouteRoute: FacultyRouteRouteWithChildren,
   UserRouteRoute: UserRouteRouteWithChildren,
   CertificateRoute: CertificateRoute,

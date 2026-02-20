@@ -1,12 +1,13 @@
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { SidebarTrigger } from "@/components/ui/sidebar"
-import { Bell, LogOut} from "lucide-react"
+import { Bell, LogOut } from "lucide-react"
 import LogoutButton from "./logout-button"
 
 interface SiteHeaderProps {
   title?: string
   siteHeaderActions?: React.ReactNode
+
 }
 
 export function SiteHeader({
@@ -24,6 +25,7 @@ export function SiteHeader({
         <h1 className="text-base font-medium hidden md:block">{title}</h1>
         <div className="ml-auto flex items-center gap-2">
           {siteHeaderActions}
+
           <Separator
             orientation="vertical"
             className="mx-2 data-[orientation=vertical]:h-4"

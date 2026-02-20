@@ -25,7 +25,7 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { useAppSelector } from '@/store/hooks'
 
-export const Route = createFileRoute('/admin/documents/')({
+export const Route = createFileRoute('/dashboard/documents/')({
   component: RouteComponent,
 })
 

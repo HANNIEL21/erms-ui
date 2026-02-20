@@ -2,7 +2,6 @@
 
 import * as React from "react"
 import {
-  Blocks,
   ClipboardList,
   Frame,
   Layers,
@@ -38,43 +37,102 @@ const alumni = {
       url: "/user/",
       icon: LayoutGrid,
       isActive: true,
-      // items: [
-      //   {
-      //     title: "History",
-      //     url: "#",
-      //   },
-      //   {
-      //     title: "Starred",
-      //     url: "#",
-      //   },
-      //   {
-      //     title: "Settings",
-      //     url: "#",
-      //   },
-      // ],
     },
     {
       title: "Requests",
       url: "/user/requests/",
       icon: ClipboardList,
-      // items: [
-      //   {
-      //     title: "Genesis",
-      //     url: "#",
-      //   },
-      //   {
-      //     title: "Explorer",
-      //     url: "#",
-      //   },
-      //   {
-      //     title: "Quantum",
-      //     url: "#",
-      //   },
-      // ],
     },
     {
       title: "Transactions",
       url: "/user/transactions/",
+      icon: WalletMinimal,
+    },
+  ],
+  navSecondary: [
+    {
+      title: "Settings",
+      url: "#",
+      icon: UserCog,
+    }
+  ],
+  projects: [
+    {
+      name: "Design Engineering",
+      url: "#",
+      icon: Frame,
+    },
+    {
+      name: "Sales & Marketing",
+      url: "#",
+      icon: PieChart,
+    },
+    {
+      name: "Travel",
+      url: "#",
+      icon: Map,
+    },
+  ],
+}
+
+const power = {
+  user: {
+    firstname: "shadcn",
+    lastname: "shadcn",
+    email: "m@example.com",
+    avatar: "/avatars/shadcn.jpg",
+  },
+  navMain: [
+    {
+      title: "Dashboard",
+      url: "/dashboard/",
+      icon: LayoutGrid,
+    },
+    {
+      title: "User Management",
+      url: "#",
+      icon: Users,
+      items: [
+        {
+          title: "Admins",
+          url: "/dashboard/admins",
+        },
+        {
+          title: "Users",
+          url: "/dashboard/users",
+        },
+        {
+          title: "Assign Privileges",
+          url: "#",
+        },
+      ],
+    },
+    {
+      title: "Records Management",
+      url: "#",
+      icon: Layers,
+      items: [
+        {
+          title: "Document Requests",
+          url: "/dashboard/requests",
+        },
+        {
+          title: "Vetting & Processing",
+          url: "/dashboard/vetting",
+        },
+        {
+          title: "Approved Documents",
+          url: "/dashboard/approved-documents",
+        },
+        {
+          title: "Bulk Combos",
+          url: "/dashboard/combos",
+        },
+      ],
+    },
+    {
+      title: "Transactions",
+      url: "/dashboard/transactions/",
       icon: WalletMinimal,
       // items: [
       //   {
@@ -94,6 +152,165 @@ const alumni = {
       //     url: "#",
       //   },
       // ],
+    },
+    {
+      title: "Config",
+      url: "#",
+      icon: MonitorCog,
+      items: [
+        {
+          title: "Documents",
+          url: "/dashboard/documents/",
+        },
+        {
+          title: "Roles",
+          url: "/dashboard/roles/",
+        },
+        {
+          title: "Faculties",
+          url: "/dashboard/faculty/",
+        },
+        {
+          title: "Departments",
+          url: "/dashboard/department/",
+        },
+        {
+          title: "Chain",
+          url: "/dashboard/chain/",
+        }
+      ],
+    },
+  ],
+  navSecondary: [
+    {
+      title: "Settings",
+      url: "#",
+      icon: UserCog,
+    }
+  ],
+  projects: [
+    {
+      name: "Design Engineering",
+      url: "#",
+      icon: Frame,
+    },
+    {
+      name: "Sales & Marketing",
+      url: "#",
+      icon: PieChart,
+    },
+    {
+      name: "Travel",
+      url: "#",
+      icon: Map,
+    },
+  ],
+}
+
+const faculty = {
+  user: {
+    firstname: "shadcn",
+    lastname: "shadcn",
+    email: "m@example.com",
+    avatar: "/avatars/shadcn.jpg",
+  },
+  navMain: [
+    {
+      title: "Dashboard",
+      url: "/dashboard/",
+      icon: LayoutGrid,
+    },
+    {
+      title: "User Management",
+      url: "#",
+      icon: Users,
+      items: [
+        {
+          title: "Admins",
+          url: "/dashboard/admins",
+        },
+        {
+          title: "Users",
+          url: "/dashboard/users",
+        },
+        {
+          title: "Assign Privileges",
+          url: "#",
+        },
+      ],
+    },
+    {
+      title: "Records Management",
+      url: "#",
+      icon: Layers,
+      items: [
+        {
+          title: "Document Requests",
+          url: "/dashboard/requests",
+        },
+        {
+          title: "Vetting & Processing",
+          url: "/dashboard/vetting",
+        },
+        {
+          title: "Approved Documents",
+          url: "/dashboard/approved-documents",
+        },
+        {
+          title: "Bulk Combos",
+          url: "/dashboard/combos",
+        },
+      ],
+    },
+    {
+      title: "Transactions",
+      url: "/dashboard/transactions/",
+      icon: WalletMinimal,
+      // items: [
+      //   {
+      //     title: "Introduction",
+      //     url: "#",
+      //   },
+      //   {
+      //     title: "Get Started",
+      //     url: "#",
+      //   },
+      //   {
+      //     title: "Tutorials",
+      //     url: "#",
+      //   },
+      //   {
+      //     title: "Changelog",
+      //     url: "#",
+      //   },
+      // ],
+    },
+    {
+      title: "Config",
+      url: "#",
+      icon: MonitorCog,
+      items: [
+        {
+          title: "Documents",
+          url: "/dashboard/documents/",
+        },
+        {
+          title: "Roles",
+          url: "/dashboard/roles/",
+        },
+        {
+          title: "Faculties",
+          url: "/dashboard/faculty/",
+        },
+        {
+          title: "Departments",
+          url: "/dashboard/department/",
+        },
+        {
+          title: "Chain",
+          url: "/dashboard/chain/",
+        }
+      ],
     },
   ],
   navSecondary: [
@@ -132,27 +349,8 @@ const admin = {
   navMain: [
     {
       title: "Dashboard",
-      url: "/admin/",
+      url: "/dashboard/",
       icon: LayoutGrid,
-    },
-    {
-      title: "User Management",
-      url: "#",
-      icon: Users,
-      items: [
-        {
-          title: "Admins",
-          url: "/admin/admins",
-        },
-        {
-          title: "Users",
-          url: "/admin/users",
-        },
-        {
-          title: "Assign Privileges",
-          url: "#",
-        },
-      ],
     },
     {
       title: "Records Management",
@@ -160,60 +358,23 @@ const admin = {
       icon: Layers,
       items: [
         {
-          title: "Requests",
-          url: "/admin/requests",
+          title: "Document Requests",
+          url: "/dashboard/requests",
         },
         {
-          title: "Combo",
-          url: "/admin/combo",
+          title: "Vetting & Processing",
+          url: "/dashboard/vet",
         },
         {
-          title: "Vet Records",
-          url: "/admin/vet",
-        },
+          title: "Approved Documents",
+          url: "/dashboard/approved",
+        }
       ],
     },
     {
       title: "Transactions",
-      url: "/admin/transactions/",
+      url: "/dashboard/transactions/",
       icon: WalletMinimal,
-      // items: [
-      //   {
-      //     title: "Introduction",
-      //     url: "#",
-      //   },
-      //   {
-      //     title: "Get Started",
-      //     url: "#",
-      //   },
-      //   {
-      //     title: "Tutorials",
-      //     url: "#",
-      //   },
-      //   {
-      //     title: "Changelog",
-      //     url: "#",
-      //   },
-      // ],
-    },
-    {
-      title: "Template Management",
-      url: "#",
-      icon: Blocks,
-      items: [
-        {
-          title: "Templates",
-          url: "/admin/templates/",
-        },
-        {
-          title: "Components",
-          url: "/admin/templates/components",
-        },
-        {
-          title: "Version",
-          url: "/admin/templates/",
-        }
-      ],
     },
     {
       title: "Config",
@@ -222,23 +383,15 @@ const admin = {
       items: [
         {
           title: "Documents",
-          url: "/admin/documents/",
-        },
-        {
-          title: "Roles",
-          url: "/admin/roles/",
-        },
-        {
-          title: "Faculties",
-          url: "/admin/faculty/",
+          url: "/dashboard/documents/",
         },
         {
           title: "Departments",
-          url: "/admin/department/",
+          url: "/dashboard/department/",
         },
         {
           title: "Chain",
-          url: "/admin/chain/",
+          url: "/dashboard/chain/",
         }
       ],
     },
@@ -274,13 +427,24 @@ interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
 }
 
 export function AppSidebar({ user, ...props }: AppSidebarProps) {
-  const base = user?.role?.name === "ALUMNI" ? alumni : admin
+  const base = (() => {
+    switch (user?.role?.name?.toUpperCase()) {
+      case "ALUMNI":
+        return alumni;
 
-  const isActivePath = (url: string) => {
-    if (url === "/") return window.location.pathname === "/"
-    return window.location.pathname.startsWith(url)
-  }
-  
+      case "ADMIN":
+        return admin;
+
+      case "RECORD OFFICER":
+        return faculty;
+
+      case "SUPER ADMIN":
+        return power;
+
+      default:
+        return admin;
+    }
+  })();
 
   const data = {
     ...base,
@@ -291,9 +455,9 @@ export function AppSidebar({ user, ...props }: AppSidebarProps) {
       avatar: base.user.avatar,
     },
   }
-
+ 
   return (
-    <Sidebar de collapsible="icon" {...props}>
+    <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
         <NavUser user={data.user} />
       </SidebarHeader>

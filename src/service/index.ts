@@ -153,7 +153,6 @@ export const getUsers = async (params: string): Promise<PaginatedResponse<User>>
 }
 
 
-
 /*
 ==========================
 Documents
@@ -396,132 +395,65 @@ export const updatePayment = async (
     return data;
 };
 
+
 /*
 ==========================
-Templates
+Approval Chain
 ==========================
 */
 
-export interface Template {
+export interface Chain {
     id: number
     name: string
-    description: string
-    version: string
+    description?: string
+    createdById: number
     isActive: boolean
-    document: { id: number, title: string }
-    createdBy: { id: number, email: string }
     createdAt: string
-    updatedAt: string
+    steps: {
+        id: number
+        name: string
+        stepOrder: number
+        description?: string
+        roleId?: number
+        userId?: number
+        canReject: boolean
+    }[]
 }
 
-export const createTemplate = async (payload: {
-    name: string;
-    description?: string;
-    version: string;
-    isActive: boolean;
-    createdById: number;
-    documentId: number;
-}) => {
-    const { data } = await http.post("/template", payload);
+export const getChains = async (params: string): Promise<PaginatedResponse<Chain>> => {
+    const { data } = await http.get(`/approval-chains?${params}`);
     return data;
 }
-
-export const getTemplates = async (params: string): Promise<PaginatedResponse<Template>> => {
-    const { data } = await http.get(`/template?${params}`);
-    return data;
-}
-
-/*
-==========================
-Components
-==========================
-*/
-
-export interface Components {
-    id: string
+export const createChain = async (payload: {
+    createdById: number
     name: string
-    layoutType: string
-    createdAt: string
-    createdBy: { id: number, email: string }
-    _count: { blocks: number }
-}
-
-export const createComponent = async (payload: {
-    name: string;
-    layoutType: string;
-    description?: string;
-    createdById: number;
+    description?: string
+    steps: {
+        stepOrder: number
+        name: string
+        description?: string
+        roleId?: number
+        userId?: number
+        canReject: boolean
+    }[]
 }) => {
-    const { data } = await http.post("/components", payload);
-    return data;
-}
-
-export const getComponents = async (params: string): Promise<PaginatedResponse<Components>> => {
-    const { data } = await http.get(`/components?${params}`);
-    return data;
-}
-
-export const getComponent = async (id: number) => {
-    const { data } = await http.get(`/components/${id}`);
-    return data;
-}
-
-export const addBlocks = async (
-    componentId: number,
-    payload: {
-        blocks: {
-            blockId: number
-            position: number
-        }[]
-    }
-) => {
-    const { data } = await http.post(
-        `/components/${componentId}/blocks`,
-        payload
-    )
+    const { data } = await http.post('/approval-chains', payload)
     return data
 }
 
-
-/*
-==========================
-Block
-==========================
-*/
-
-export interface Block {
-    id: string
+export const updateChain = async (id: number, payload: {
+    createdById: number
     name: string
-    blockType: string
-    defaultValue: string
-    isDynamic: boolean
-    createdAt: string
-    createdBy: { id: number, email: string }
-}
-
-export const createBlock = async (payload: {
-    name: string;
-    blockType: string;
-    defaultValue?: string;
-    isDynamic?: boolean;
-    createdById: number;
+    description?: string
+    steps: {
+        stepOrder: number
+        name: string
+        description?: string
+        roleId?: number
+        userId?: number
+        canReject: boolean
+    }[]
 }) => {
-    const { data } = await http.post("/block", payload);
-    return data;
-}
-
-export const editBlock = async (id: number, payload: {
-    name: string;
-    blockType: string;
-    defaultValue?: string;
-    isDynamic?: boolean;
-    createdById: number;
-}) => {
-    const { data } = await http.patch(`/block/${id}`, payload);
-    return data;
-}
-
-export const getBlocks = async (params: string): Promise<PaginatedResponse<Components>> => {
-    const { data } = await http.get(`/block?${params}`);
-    return data;
+    const response = await http.put(`/chains/${id}`, payload)
+    return response.data
 }

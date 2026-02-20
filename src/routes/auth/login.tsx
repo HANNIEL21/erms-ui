@@ -146,9 +146,22 @@ function RouteComponent() {
       if (data.status === 200) {
         toast.success(`Logged in as ${data.user.email}`)
 
-        navigate({
-          to: data.user?.role?.name === "ALUMNI" ? "/user" : "/admin",
-        });
+        switch (data.user?.role?.name) {
+          case "Alumni":
+            navigate({ to: '/user' });
+            break;
+          case "Super Admin":
+            navigate({ to: '/dashboard' });
+            break;
+          case "Admin":
+            navigate({ to: '/faculty' });
+            break;
+          case "Record Officer":
+            navigate({ to: '/faculty' });
+            break;
+          default:
+            break;
+        }
       }
 
       if (data.status === 203) {
@@ -203,9 +216,9 @@ function RouteComponent() {
 
     function animate() {
       if (!ctx || !canvas) return;
-      
+
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
+
       particles.forEach(particle => {
         particle.x += particle.speedX;
         particle.y += particle.speedY;
@@ -232,7 +245,7 @@ function RouteComponent() {
     };
 
     window.addEventListener('resize', handleResize);
-    
+
     return () => {
       window.removeEventListener('resize', handleResize);
       if (animationFrameId) {
@@ -269,7 +282,7 @@ function RouteComponent() {
         {/* Decorative Elements */}
         <div className="absolute top-0 left-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-emerald-600/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
-        
+
         <div className="w-full max-w-md">
           {/* Header with Back Button */}
           <div className="space-y-3 mb-10">
@@ -279,17 +292,17 @@ function RouteComponent() {
                 onClick={() => navigate({ to: '/' })}
                 className="inline-flex items-center gap-2 text-gray-600 hover:text-emerald-600 transition-colors group"
               >
-                <svg 
-                  className="w-5 h-5 group-hover:-translate-x-1 transition-transform" 
-                  fill="none" 
-                  stroke="currentColor" 
+                <svg
+                  className="w-5 h-5 group-hover:-translate-x-1 transition-transform"
+                  fill="none"
+                  stroke="currentColor"
                   viewBox="0 0 24 24"
                 >
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                 </svg>
                 <span className="text-sm font-medium">Back</span>
               </button>
-              
+
               <div className="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 px-4 py-2 rounded-full text-sm font-medium">
                 <span className="relative flex h-2 w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
@@ -298,7 +311,7 @@ function RouteComponent() {
                 {isAdmin ? 'Admin Access' : 'Alumni Portal'}
               </div>
             </div>
-            
+
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">
               <span className="bg-linear-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
                 Welcome Back
@@ -308,7 +321,7 @@ function RouteComponent() {
                 to Your Portal
               </span>
             </h1>
-            
+
             <p className="text-sm text-gray-500 flex items-center gap-2">
               <span className="w-8 h-0.5 bg-emerald-500/50 rounded-full" />
               Sign in to continue managing your records
@@ -440,13 +453,13 @@ function RouteComponent() {
           ref={canvasRef}
           className="absolute inset-0 w-full h-full"
         />
-        
+
         {/* Abstract Shapes */}
         <div className="absolute inset-0">
           {/* Floating Circles */}
           <div className="absolute top-20 left-20 w-64 h-64 bg-emerald-400/10 rounded-full blur-3xl animate-pulse" />
           <div className="absolute bottom-20 right-20 w-96 h-96 bg-teal-400/10 rounded-full blur-3xl animate-pulse delay-1000" />
-          
+
           {/* Geometric Patterns */}
           <div className="absolute top-40 right-40">
             <div className="relative">
@@ -454,16 +467,16 @@ function RouteComponent() {
               <div className="absolute inset-0 w-32 h-32 border-2 border-teal-400/20 -rotate-45 animate-spin-slow-reverse" />
             </div>
           </div>
-          
+
           {/* Grid Pattern */}
           <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-size[50px_50px]" />
-          
+
           {/* Diagonal Lines */}
           <div className="absolute inset-0 overflow-hidden">
             <div className="absolute -left-1/4 top-0 w-full h-full bg-linear-to-r from-transparent via-emerald-500/5 to-transparent transform -skew-y-12" />
             <div className="absolute -right-1/4 top-0 w-full h-full bg-linear-to-l from-transparent via-teal-500/5 to-transparent transform skew-y-12" />
           </div>
-          
+
           {/* Dots Pattern */}
           <div className="absolute bottom-20 left-20">
             <div className="grid grid-cols-3 gap-4">
@@ -482,21 +495,21 @@ function RouteComponent() {
 
         {/* Content with Carousel */}
         <div className="relative z-10 text-center text-white px-12 max-w-lg w-full">
-          
+
 
           <h2 className="text-4xl font-bold mb-4 bg-linear-to-r from-emerald-200 to-teal-200 bg-clip-text text-transparent">
             Electronic Records
           </h2>
-          
+
           <p className="text-emerald-100/80 text-lg mb-12 leading-relaxed">
             Secure alumni access and document verification
           </p>
-          
+
           {/* Feature Carousel */}
           <div className="relative mb-12">
             {/* Carousel Container */}
             <div className="overflow-hidden rounded-2xl">
-              <div 
+              <div
                 className="flex transition-transform duration-500 ease-out"
                 style={{ transform: `translateX(-${currentSlide * 100}%)` }}
               >
@@ -508,17 +521,17 @@ function RouteComponent() {
                       <div className="w-16 h-16 mx-auto mb-6 bg-linear-to-br from-emerald-400 to-teal-400 rounded-2xl flex items-center justify-center shadow-lg">
                         {feature.icon}
                       </div>
-                      
+
                       {/* Feature Title */}
                       <h3 className="text-2xl font-semibold mb-3 text-white">
                         {feature.title}
                       </h3>
-                      
+
                       {/* Feature Description */}
                       <p className="text-emerald-100/80 text-sm leading-relaxed">
                         {feature.description}
                       </p>
-                      
+
                       {/* Feature Tag */}
                       <div className="mt-6 inline-flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full text-xs text-emerald-200 border border-white/10">
                         <span className="relative flex h-2 w-2">
@@ -539,11 +552,10 @@ function RouteComponent() {
                 <button
                   key={index}
                   onClick={() => setCurrentSlide(index)}
-                  className={`transition-all duration-300 rounded-full ${
-                    currentSlide === index
-                      ? 'w-8 h-2 bg-emerald-400'
-                      : 'w-2 h-2 bg-white/30 hover:bg-white/50'
-                  }`}
+                  className={`transition-all duration-300 rounded-full ${currentSlide === index
+                    ? 'w-8 h-2 bg-emerald-400'
+                    : 'w-2 h-2 bg-white/30 hover:bg-white/50'
+                    }`}
                   aria-label={`Go to slide ${index + 1}`}
                 />
               ))}
@@ -551,7 +563,7 @@ function RouteComponent() {
 
             {/* Auto-play Progress Bar */}
             <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-48 h-1 bg-white/10 rounded-full overflow-hidden">
-              <div 
+              <div
                 className="h-full bg-linear-to-r from-emerald-400 to-teal-400 rounded-full transition-all duration-300"
                 style={{ width: `${progress}%` }}
               />

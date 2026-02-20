@@ -3,7 +3,7 @@ import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
 import { useAppSelector } from '@/store/hooks'
 import { createFileRoute, Outlet } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/admin')({
+export const Route = createFileRoute('/dashboard')({
   component: Layout,
 })
 

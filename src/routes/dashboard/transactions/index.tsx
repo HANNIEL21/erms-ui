@@ -14,7 +14,7 @@ import { SiteHeader } from '@/components/site-header'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
-export const Route = createFileRoute('/admin/transactions/')({
+export const Route = createFileRoute('/dashboard/transactions/')({
   component: RouteComponent,
 })
 

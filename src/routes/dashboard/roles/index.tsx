@@ -21,7 +21,7 @@ type CreateRoleForm = {
 }
 
 
-export const Route = createFileRoute('/admin/roles/')({
+export const Route = createFileRoute('/dashboard/roles/')({
   component: RouteComponent,
 })
 
